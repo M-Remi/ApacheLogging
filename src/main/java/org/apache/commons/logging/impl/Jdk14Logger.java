@@ -56,10 +56,7 @@ public class Jdk14Logger implements Log, Serializable {
      *
      * @param name Name of the logger to be constructed
      */
-    public Jdk14Logger(final String name) {
-        this.name = name;
-        logger = getLogger();
-    }
+    public Jdk14Logger(final String name) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINE}.
@@ -68,9 +65,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#debug(Object)
      */
     @Override
-    public void debug(final Object message) {
-        log(Level.FINE, String.valueOf(message), null);
-    }
+    public void debug(final Object message) {    }
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINE}.
@@ -80,9 +75,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#debug(Object, Throwable)
      */
     @Override
-    public void debug(final Object message, final Throwable exception) {
-        log(Level.FINE, String.valueOf(message), exception);
-    }
+    public void debug(final Object message, final Throwable exception) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#SEVERE}.
@@ -91,9 +84,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#error(Object)
      */
     @Override
-    public void error(final Object message) {
-        log(Level.SEVERE, String.valueOf(message), null);
-    }
+    public void error(final Object message) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#SEVERE}.
@@ -103,9 +94,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#error(Object, Throwable)
      */
     @Override
-    public void error(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
-    }
+    public void error(final Object message, final Throwable exception) {    }
 
     /**
      * Logs a message with {@link java.util.logging.Level#SEVERE}.
@@ -115,7 +104,7 @@ public class Jdk14Logger implements Log, Serializable {
      */
     @Override
     public void fatal(final Object message) {
-        log(Level.SEVERE, String.valueOf(message), null);
+
     }
 
     /**
@@ -126,21 +115,14 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#fatal(Object, Throwable)
      */
     @Override
-    public void fatal(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
-    }
+    public void fatal(final Object message, final Throwable exception) {}
 
     /**
      * Gets the native Logger instance we are using.
      *
      * @return  the native Logger instance we are using.
      */
-    public Logger getLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger(name);
-        }
-        return logger;
-    }
+
 
     /**
      * Logs a message with {@link java.util.logging.Level#INFO}.
@@ -170,31 +152,27 @@ public class Jdk14Logger implements Log, Serializable {
      */
     @Override
     public boolean isDebugEnabled() {
-        return getLogger().isLoggable(Level.FINE);
+        return true;
     }
 
     /**
      * Is error logging currently enabled?
      */
     @Override
-    public boolean isErrorEnabled() {
-        return getLogger().isLoggable(Level.SEVERE);
-    }
+    public boolean isErrorEnabled() { return true;   }
 
     /**
      * Is fatal logging currently enabled?
      */
     @Override
-    public boolean isFatalEnabled() {
-        return getLogger().isLoggable(Level.SEVERE);
-    }
+    public boolean isFatalEnabled() {return true; }
 
     /**
      * Is info logging currently enabled?
      */
     @Override
     public boolean isInfoEnabled() {
-        return getLogger().isLoggable(Level.INFO);
+        return true;
     }
 
     /**
@@ -202,7 +180,7 @@ public class Jdk14Logger implements Log, Serializable {
      */
     @Override
     public boolean isTraceEnabled() {
-        return getLogger().isLoggable(Level.FINEST);
+        return true;
     }
 
     /**
@@ -210,7 +188,7 @@ public class Jdk14Logger implements Log, Serializable {
      */
     @Override
     public boolean isWarnEnabled() {
-        return getLogger().isLoggable(Level.WARNING);
+        return true;
     }
 
     /**
@@ -220,27 +198,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @param msg The message.
      * @param ex The exception.
      */
-    protected void log(final Level level, final String msg, final Throwable ex) {
-        final Logger logger = getLogger();
-        if (logger.isLoggable(level)) {
-            // Hack (?) to get the stack trace.
-            final Throwable dummyException = new Throwable();
-            final StackTraceElement[] locations = dummyException.getStackTrace();
-            // LOGGING-132: use the provided logger name instead of the class name
-            final String cname = name;
-            String method = "unknown";
-            // Caller will be the third element
-            if (locations != null && locations.length > 2) {
-                final StackTraceElement caller = locations[2];
-                method = caller.getMethodName();
-            }
-            if (ex == null) {
-                logger.logp(level, cname, method, msg);
-            } else {
-                logger.logp(level, cname, method, msg, ex);
-            }
-        }
-    }
+    protected void log(final Level level, final String msg, final Throwable ex) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINEST}.
@@ -249,9 +207,8 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#trace(Object)
      */
     @Override
-    public void trace(final Object message) {
-        log(Level.FINEST, String.valueOf(message), null);
-    }
+    public void trace(final Object message) {}
+
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINEST}.
@@ -261,9 +218,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#trace(Object, Throwable)
      */
     @Override
-    public void trace(final Object message, final Throwable exception) {
-        log(Level.FINEST, String.valueOf(message), exception);
-    }
+    public void trace(final Object message, final Throwable exception) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#WARNING}.
@@ -272,9 +227,7 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#warn(Object)
      */
     @Override
-    public void warn(final Object message) {
-        log(Level.WARNING, String.valueOf(message), null);
-    }
+    public void warn(final Object message) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#WARNING}.
@@ -284,7 +237,202 @@ public class Jdk14Logger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#warn(Object, Throwable)
      */
     @Override
-    public void warn(final Object message, final Throwable exception) {
-        log(Level.WARNING, String.valueOf(message), exception);
+    public void warn(final Object message, final Throwable exception) {}
+//50 long parameter method
+    public void createOrder1(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
     }
+
+    public void updateUserProfile2(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment3(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee4(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport5(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
+    public void createOrder16(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile17(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment18(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee19(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport10(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+    public void createOrder11(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile12(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment13(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee14(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport15(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
+    public void createOrder116(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile117(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment118(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee119(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport120(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+    public void createOrder21(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile22(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment23(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee24(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport25(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
+    public void createOrder126(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile127(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment128(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee129(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport130(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+    public void createOrder31(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile32(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment33(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee34(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport35(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
+    public void createOrder136(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile137(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment138(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee139(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport140(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+    public void createOrder41(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile42(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment43(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee44(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport45(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
+    public void createOrder146(String customerName, String customerEmail, String customerPhone,String shippingAddress,String billingAddress,String productId, int quantity,double price,String paymentMethod, String currency)
+    {
+    }
+
+    public void updateUserProfile147(String firstName,String lastName,String email,String phone,String address,String city,String postcode,String country,String username,String password, boolean isActive)
+    {
+    }
+
+    public void processPayment148(String cardNumber,String cardHolderName,String expiryDate,String cvv,String billingAddress,String city,String postcode,String country,double amount,String currency,String transactionId,boolean saveCard)
+    {
+    }
+
+    public void registerEmployee149(String firstName,String lastName,String dateOfBirth,String gender,String email,String phone,String address,String department,String jobTitle,double salary,String managerName,String employmentType,String startDate)
+    {
+    }
+
+    public void generateReport150(String title,String author,String department,String startDate,String endDate,String reportType,boolean includeSummary,boolean includeCharts,boolean includeTables,String outputFormat,String filePath,String approvalStatus)
+    {
+    }
+
 }

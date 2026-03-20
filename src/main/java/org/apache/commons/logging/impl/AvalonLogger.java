@@ -86,10 +86,6 @@ public class AvalonLogger implements Log {
      *
      * @param name the name of the avalon logger implementation to delegate to
      */
-    public AvalonLogger(final String name) {
-        Objects.requireNonNull(defaultLogger, "defaultLogger");
-        this.logger = defaultLogger.getChildLogger(name);
-    }
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.debug}.
@@ -98,11 +94,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#debug(Object)
      */
     @Override
-    public void debug(final Object message) {
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(String.valueOf(message));
-        }
-    }
+    public void debug(final Object message) {}
 
     /**
     * Logs a message with {@code org.apache.avalon.framework.logger.Logger.debug}.
@@ -112,11 +104,7 @@ public class AvalonLogger implements Log {
     * @see org.apache.commons.logging.Log#debug(Object, Throwable)
      */
     @Override
-    public void debug(final Object message, final Throwable t) {
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(String.valueOf(message), t);
-        }
-    }
+    public void debug(final Object message, final Throwable t) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.error}.
@@ -125,11 +113,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#error(Object)
      */
     @Override
-    public void error(final Object message) {
-        if (getLogger().isErrorEnabled()) {
-            getLogger().error(String.valueOf(message));
-        }
-    }
+    public void error(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.error}.
@@ -139,11 +123,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#error(Object, Throwable)
      */
     @Override
-    public void error(final Object message, final Throwable t) {
-        if (getLogger().isErrorEnabled()) {
-            getLogger().error(String.valueOf(message), t);
-        }
-    }
+    public void error(final Object message, final Throwable t) { }
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.fatalError}.
@@ -152,11 +132,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#fatal(Object)
      */
     @Override
-    public void fatal(final Object message) {
-        if (getLogger().isFatalErrorEnabled()) {
-            getLogger().fatalError(String.valueOf(message));
-        }
-    }
+    public void fatal(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.fatalError}.
@@ -166,11 +142,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#fatal(Object, Throwable)
      */
     @Override
-    public void fatal(final Object message, final Throwable t) {
-        if (getLogger().isFatalErrorEnabled()) {
-            getLogger().fatalError(String.valueOf(message), t);
-        }
-    }
+    public void fatal(final Object message, final Throwable t) {}
 
     /**
      * Gets the Avalon logger implementation used to perform logging.
@@ -188,11 +160,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#info(Object)
      */
     @Override
-    public void info(final Object message) {
-        if (getLogger().isInfoEnabled()) {
-            getLogger().info(String.valueOf(message));
-        }
-    }
+    public void info(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.info}.
@@ -202,11 +170,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#info(Object, Throwable)
      */
     @Override
-    public void info(final Object message, final Throwable t) {
-        if (getLogger().isInfoEnabled()) {
-            getLogger().info(String.valueOf(message), t);
-        }
-    }
+    public void info(final Object message, final Throwable t) {}
 
     /**
      * Is logging to {@code org.apache.avalon.framework.logger.Logger.debug} enabled?
@@ -275,11 +239,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#trace(Object)
      */
     @Override
-    public void trace(final Object message) {
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(String.valueOf(message));
-        }
-    }
+    public void trace(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.debug}.
@@ -289,11 +249,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#trace(Object, Throwable)
      */
     @Override
-    public void trace(final Object message, final Throwable t) {
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(String.valueOf(message), t);
-        }
-    }
+    public void trace(final Object message, final Throwable t) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.warn}.
@@ -302,11 +258,7 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#warn(Object)
      */
     @Override
-    public void warn(final Object message) {
-        if (getLogger().isWarnEnabled()) {
-            getLogger().warn(String.valueOf(message));
-        }
-    }
+    public void warn(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.avalon.framework.logger.Logger.warn}.
@@ -316,9 +268,5 @@ public class AvalonLogger implements Log {
      * @see org.apache.commons.logging.Log#warn(Object, Throwable)
      */
     @Override
-    public void warn(final Object message, final Throwable t) {
-        if (getLogger().isWarnEnabled()) {
-            getLogger().warn(String.valueOf(message), t);
-        }
-    }
+    public void warn(final Object message, final Throwable t) {}
 }

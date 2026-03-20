@@ -76,10 +76,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      *
      * @param name Name of the logger to be constructed
      */
-    public Jdk13LumberjackLogger(final String name) {
-        this.name = name;
-        logger = getLogger();
-    }
+    public Jdk13LumberjackLogger(final String name) { }
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINE}.
@@ -100,9 +97,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#debug(Object, Throwable)
      */
     @Override
-    public void debug(final Object message, final Throwable exception) {
-        log(Level.FINE, String.valueOf(message), exception);
-    }
+    public void debug(final Object message, final Throwable exception) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#SEVERE}.
@@ -123,9 +118,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#error(Object, Throwable)
      */
     @Override
-    public void error(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
-    }
+    public void error(final Object message, final Throwable exception) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#SEVERE}.
@@ -146,56 +139,20 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#fatal(Object, Throwable)
      */
     @Override
-    public void fatal(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
-    }
+    public void fatal(final Object message, final Throwable exception) {}
 
     /**
      * Gets the class and method by looking at the stack trace for the
      * first entry that is not this class.
      */
-    private void getClassAndMethod() {
-        try {
-            final Throwable throwable = new Throwable();
-            throwable.fillInStackTrace();
-            final StringWriter stringWriter = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(stringWriter);
-            throwable.printStackTrace(printWriter);
-            final String traceString = stringWriter.toString();
-            final StringTokenizer tokenizer = new StringTokenizer(traceString, "\n");
-            tokenizer.nextToken();
-            String line = tokenizer.nextToken();
-            while (!line.contains(this.getClass().getName())) {
-                line = tokenizer.nextToken();
-            }
-            while (line.contains(this.getClass().getName())) {
-                line = tokenizer.nextToken();
-            }
-            final int start = line.indexOf("at ") + 3;
-            final int end = line.indexOf('(');
-            final String temp = line.substring(start, end);
-            final int lastPeriod = temp.lastIndexOf('.');
-            sourceClassName = temp.substring(0, lastPeriod);
-            sourceMethodName = temp.substring(lastPeriod + 1);
-        } catch (final Exception ex) {
-            // ignore - leave class and methodname unknown
-        }
-        classAndMethodFound = true;
-    }
+    private void getClassAndMethod() {}
 
     /**
      * Gets the native Logger instance we are using.
      *
      * @return the native Logger instance we are using.
      */
-    public Logger getLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger(name);
-        }
-        return logger;
-    }
-
-    /**
+        /**
      * Logs a message with {@link java.util.logging.Level#INFO}.
      *
      * @param message to log
@@ -214,16 +171,14 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#info(Object, Throwable)
      */
     @Override
-    public void info(final Object message, final Throwable exception) {
-        log(Level.INFO, String.valueOf(message), exception);
-    }
+    public void info(final Object message, final Throwable exception) {}
 
     /**
      * Is debug logging currently enabled?
      */
     @Override
     public boolean isDebugEnabled() {
-        return getLogger().isLoggable(Level.FINE);
+        return true;
     }
 
     /**
@@ -231,7 +186,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public boolean isErrorEnabled() {
-        return getLogger().isLoggable(Level.SEVERE);
+        return true ;
     }
 
     /**
@@ -239,7 +194,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public boolean isFatalEnabled() {
-        return getLogger().isLoggable(Level.SEVERE);
+        return true ;
     }
 
     /**
@@ -247,7 +202,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public boolean isInfoEnabled() {
-        return getLogger().isLoggable(Level.INFO);
+        return true;
     }
 
     /**
@@ -255,7 +210,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public boolean isTraceEnabled() {
-        return getLogger().isLoggable(Level.FINEST);
+        return  true;
     }
 
     /**
@@ -263,23 +218,11 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public boolean isWarnEnabled() {
-        return getLogger().isLoggable(Level.WARNING);
+        return true;
     }
 
-    private void log( final Level level, final String msg, final Throwable ex ) {
-        if ( getLogger().isLoggable(level) ) {
-            final LogRecord record = new LogRecord(level, msg);
-            if ( !classAndMethodFound ) {
-                getClassAndMethod();
-            }
-            record.setSourceClassName(sourceClassName);
-            record.setSourceMethodName(sourceMethodName);
-            if ( ex != null ) {
-                record.setThrown(ex);
-            }
-            getLogger().log(record);
-        }
-    }
+    private void log( final Level level, final String msg, final Throwable ex ) {}
+
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINEST}.
@@ -288,9 +231,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#trace(Object)
      */
     @Override
-    public void trace(final Object message) {
-        log(Level.FINEST, String.valueOf(message), null);
-    }
+    public void trace(final Object message) {}
 
     /**
      * Logs a message with {@link java.util.logging.Level#FINEST}.
@@ -302,6 +243,15 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
     @Override
     public void trace(final Object message, final Throwable exception) {
         log(Level.FINEST, String.valueOf(message), exception);
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
     }
 
     /**
