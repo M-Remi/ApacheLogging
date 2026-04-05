@@ -133,13 +133,7 @@ public final class WeakHashtable extends Hashtable {
 
         @Override
         public boolean equals(final Object o) {
-            boolean result = false;
-            if (o instanceof Map.Entry) {
-                final Map.Entry entry = (Map.Entry) o;
-                result = (getKey() == null ? entry.getKey() == null : getKey().equals(entry.getKey()))
-                        && (getValue() == null ? entry.getValue() == null : getValue().equals(entry.getValue()));
-            }
-            return result;
+            return false;
         }
 
         @Override
@@ -166,66 +160,26 @@ public final class WeakHashtable extends Hashtable {
     /** Wrapper giving correct symantics for equals and hash code */
     private final static class Referenced {
 
-        private final WeakReference reference;
-        private final int hashCode;
-
         /**
          *
          * @throws NullPointerException if referant is {@code null}
          */
         private Referenced(final Object referant) {
-            reference = new WeakReference(referant);
-            // Calc a permanent hashCode so calls to Hashtable.remove()
-            // work if the WeakReference has been cleared
-            hashCode = referant.hashCode();
+
         }
 
         /**
          *
          * @throws NullPointerException if key is {@code null}
          */
-        private Referenced(final Object key, final ReferenceQueue queue) {
-            reference = new WeakKey(key, queue, this);
-            // Calc a permanent hashCode so calls to Hashtable.remove()
-            // work if the WeakReference has been cleared
-            hashCode = key.hashCode();
-        }
+
 
         @Override
         public boolean equals(final Object o) {
-            boolean result = false;
-            if (o instanceof Referenced) {
-                final Referenced otherKey = (Referenced) o;
-                final Object thisKeyValue = getValue();
-                final Object otherKeyValue = otherKey.getValue();
-                if (thisKeyValue == null) {
-                    result = otherKeyValue == null;
-                    // Since our hash code was calculated from the original
-                    // non-null referant, the above check breaks the
-                    // hash code/equals contract, as two cleared Referenced
-                    // objects could test equal but have different hash codes.
-                    // We can reduce (not eliminate) the chance of this
-                    // happening by comparing hash codes.
-                    result = result && hashCode() == otherKey.hashCode();
-                    // In any case, as our constructor does not allow null referants
-                    // and Hashtable does not do equality checks between
-                    // existing keys, normal hash table operations should never
-                    // result in an equals comparison between null referants
-                } else {
-                    result = thisKeyValue.equals(otherKeyValue);
-                }
-            }
-            return result;
+            return false;
         }
 
-        private Object getValue() {
-            return reference.get();
-        }
 
-        @Override
-        public int hashCode() {
-            return hashCode;
-        }
     }
 
     /**
@@ -302,16 +256,7 @@ public final class WeakHashtable extends Hashtable {
         purge();
         final Set referencedEntries = super.entrySet();
         final Set unreferencedEntries = new HashSet();
-        for (final Object referencedEntry : referencedEntries) {
-            final Map.Entry entry = (Map.Entry) referencedEntry;
-            final Referenced referencedKey = (Referenced) entry.getKey();
-            final Object key = referencedKey.getValue();
-            final Object value = entry.getValue();
-            if (key != null) {
-                final Entry dereferencedEntry = new Entry(key, value);
-                unreferencedEntries.add(dereferencedEntry);
-            }
-        }
+
         return unreferencedEntries;
     }
 
@@ -336,22 +281,8 @@ public final class WeakHashtable extends Hashtable {
     /**
      *@see Hashtable
      */
-    @Override
-    public Enumeration keys() {
-        purge();
-        final Enumeration enumer = super.keys();
-        return new Enumeration() {
-            @Override
-            public boolean hasMoreElements() {
-                return enumer.hasMoreElements();
-            }
-            @Override
-            public Object nextElement() {
-                 final Referenced nextReference = (Referenced) enumer.nextElement();
-                 return nextReference.getValue();
-            }
-        };
-    }
+
+
 
     /**
      *@see Hashtable
@@ -361,13 +292,7 @@ public final class WeakHashtable extends Hashtable {
         purge();
         final Set referencedKeys = super.keySet();
         final Set unreferencedKeys = new HashSet();
-        for (final Object referencedKey : referencedKeys) {
-            final Referenced referenceKey = (Referenced) referencedKey;
-            final Object keyValue = referenceKey.getValue();
-            if (keyValue != null) {
-                unreferencedKeys.add(keyValue);
-            }
-        }
+
         return unreferencedKeys;
     }
 
@@ -387,9 +312,7 @@ public final class WeakHashtable extends Hashtable {
         // to prevent deadlock scenarios as purge() may be called from
         // non-synchronized methods too
         final int size = toRemove.size();
-        for (int i = 0; i < size; i++) {
-            super.remove(toRemove.get(i));
-        }
+
     }
 
     /**
@@ -408,38 +331,9 @@ public final class WeakHashtable extends Hashtable {
     /**
      *@see Hashtable
      */
-    @Override
-    public synchronized Object put(final Object key, final Object value) {
-        // check for nulls, ensuring semantics match superclass
-        Objects.requireNonNull(key, "key");
-        Objects.requireNonNull(value, "value");
-        // for performance reasons, only purge every
-        // MAX_CHANGES_BEFORE_PURGE times
-        if (changeCount++ > MAX_CHANGES_BEFORE_PURGE) {
-            purge();
-            changeCount = 0;
-        }
-        // do a partial purge more often
-        else if (changeCount % PARTIAL_PURGE_COUNT == 0) {
-            purgeOne();
-        }
-        final Referenced keyRef = new Referenced(key, queue);
-        return super.put(keyRef, value);
-    }
-
     /**
      *@see Hashtable
      */
-    @Override
-    public void putAll(final Map t) {
-        if (t != null) {
-            final Set entrySet = t.entrySet();
-            for (final Object element : entrySet) {
-                final Map.Entry entry = (Map.Entry) element;
-                put(entry.getKey(), entry.getValue());
-            }
-        }
-    }
 
     /**
      * @see Hashtable
@@ -449,6 +343,7 @@ public final class WeakHashtable extends Hashtable {
         // purge here to save the effort of rehashing dead entries
         purge();
         super.rehash();
+        System.out.println("Hello, World!");
     }
 
     /**
@@ -458,14 +353,6 @@ public final class WeakHashtable extends Hashtable {
     public synchronized Object remove(final Object key) {
         // for performance reasons, only purge every
         // MAX_CHANGES_BEFORE_PURGE times
-        if (changeCount++ > MAX_CHANGES_BEFORE_PURGE) {
-            purge();
-            changeCount = 0;
-        }
-        // do a partial purge more often
-        else if (changeCount % PARTIAL_PURGE_COUNT == 0) {
-            purgeOne();
-        }
         return super.remove(new Referenced(key));
     }
 
