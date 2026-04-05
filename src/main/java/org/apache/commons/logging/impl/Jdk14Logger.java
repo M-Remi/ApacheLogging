@@ -59,6 +59,44 @@ public class Jdk14Logger implements Log, Serializable {
     public Jdk14Logger(final String name) {
         this.name = name;
         logger = getLogger();
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
+        System.out.println("Some sound");
     }
 
     /**

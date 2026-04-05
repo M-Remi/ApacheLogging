@@ -52,7 +52,6 @@ public class Log4JLogger implements Log, Serializable {
     /** The fully qualified name of the Log4JLogger class. */
     private static final String FQCN = Log4JLogger.class.getName();
 
-    private static final Priority TRACE_LEVEL;
 
     //
     // Note that this must come after the static variable declarations
@@ -63,36 +62,19 @@ public class Log4JLogger implements Log, Serializable {
     // If an ExceptionInInitializerError is generated, then LogFactoryImpl
     // will treat that as meaning that the appropriate underlying logging
     // library is just not present - if discovery is in progress then
-    // discovery will continue.
-    static {
-        if (!Priority.class.isAssignableFrom(Level.class)) {
-            // nope, this is Log4j 1.3, so force an ExceptionInInitializerError
-            throw new InstantiationError("Log4J 1.2 not available");
-        }
-        // Releases of Log4j 1.2 >= 1.2.12 have Priority.TRACE available, earlier
-        // versions do not. If TRACE is not available, then we have to map
-        // calls to Log.trace(...) onto the DEBUG level.
-        Priority traceLevel;
-        try {
-            traceLevel = (Priority) Level.class.getDeclaredField("TRACE").get(null);
-        } catch (final Exception ex) {
-            // ok, trace not available
-            traceLevel = Level.DEBUG;
-        }
-        TRACE_LEVEL = traceLevel;
-    }
+
 
     /** Log to this logger */
     private transient volatile Logger logger;
 
     /** Logger name */
-    private final String name;
+    private final String name="";
 
     /**
      * Constructs a new instance.
      */
     public Log4JLogger() {
-        name = null;
+
     }
 
     /**
@@ -100,13 +82,9 @@ public class Log4JLogger implements Log, Serializable {
      *
      * @param logger Logger.
      */
-    public Log4JLogger(final Logger logger) {
-        if (logger == null) {
-            throw new IllegalArgumentException("Warning - null logger in constructor; possible Log4j misconfiguration.");
-        }
-        this.name = logger.getName();
-        this.logger = logger;
-    }
+    public Log4JLogger(final Logger logger) {}
+
+
 
     /**
      * Base constructor.
@@ -114,7 +92,7 @@ public class Log4JLogger implements Log, Serializable {
      * @param name name.
      */
     public Log4JLogger(final String name) {
-        this.name = name;
+
         this.logger = getLogger();
     }
 
@@ -125,9 +103,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#debug(Object)
      */
     @Override
-    public void debug(final Object message) {
-        getLogger().log(FQCN, Level.DEBUG, message, null);
-    }
+    public void debug(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.DEBUG}.
@@ -137,9 +113,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#debug(Object, Throwable)
      */
     @Override
-    public void debug(final Object message, final Throwable t) {
-        getLogger().log(FQCN, Level.DEBUG, message, t);
-    }
+    public void debug(final Object message, final Throwable t) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.ERROR}.
@@ -148,9 +122,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#error(Object)
      */
     @Override
-    public void error(final Object message) {
-        getLogger().log(FQCN, Level.ERROR, message, null);
-    }
+    public void error(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.ERROR}.
@@ -160,9 +132,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#error(Object, Throwable)
      */
     @Override
-    public void error(final Object message, final Throwable t) {
-        getLogger().log(FQCN, Level.ERROR, message, t);
-    }
+    public void error(final Object message, final Throwable t) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.FATAL}.
@@ -171,9 +141,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#fatal(Object)
      */
     @Override
-    public void fatal(final Object message) {
-        getLogger().log(FQCN, Level.FATAL, message, null);
-    }
+    public void fatal(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.FATAL}.
@@ -183,9 +151,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#fatal(Object, Throwable)
      */
     @Override
-    public void fatal(final Object message, final Throwable t) {
-        getLogger().log(FQCN, Level.FATAL, message, t);
-    }
+    public void fatal(final Object message, final Throwable t) {}
 
     /**
      * Gets the native Logger instance we are using.
@@ -194,14 +160,7 @@ public class Log4JLogger implements Log, Serializable {
      */
     public Logger getLogger() {
         Logger result = logger;
-        if (result == null) {
-            synchronized(this) {
-                result = logger;
-                if (result == null) {
-                    logger = result = Logger.getLogger(name);
-                }
-            }
-        }
+
         return result;
     }
 
@@ -267,7 +226,7 @@ public class Log4JLogger implements Log, Serializable {
      */
     @Override
     public boolean isTraceEnabled() {
-        return getLogger().isEnabledFor(TRACE_LEVEL);
+        return true;
     }
 
     /**
@@ -287,9 +246,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#trace(Object)
      */
     @Override
-    public void trace(final Object message) {
-        getLogger().log(FQCN, TRACE_LEVEL, message, null);
-    }
+    public void trace(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.TRACE}.
@@ -301,9 +258,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#trace(Object, Throwable)
      */
     @Override
-    public void trace(final Object message, final Throwable t) {
-        getLogger().log(FQCN, TRACE_LEVEL, message, t);
-    }
+    public void trace(final Object message, final Throwable t) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.WARN}.
@@ -312,9 +267,7 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#warn(Object)
      */
     @Override
-    public void warn(final Object message) {
-        getLogger().log(FQCN, Level.WARN, message, null);
-    }
+    public void warn(final Object message) {}
 
     /**
      * Logs a message with {@code org.apache.log4j.Priority.WARN}.
@@ -324,8 +277,8 @@ public class Log4JLogger implements Log, Serializable {
      * @see org.apache.commons.logging.Log#warn(Object, Throwable)
      */
     @Override
-    public void warn(final Object message, final Throwable t) {
-        getLogger().log(FQCN, Level.WARN, message, t);
-    }
+    public void warn(final Object message, final Throwable t) {}
+
+
 
 }

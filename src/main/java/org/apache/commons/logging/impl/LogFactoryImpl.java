@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 
@@ -202,10 +202,7 @@ public class LogFactoryImpl extends LogFactory {
      * @throws SecurityException if the current Java security policy doesn't
      * allow this class to access the context class loader.
      */
-    private static ClassLoader getContextClassLoaderInternal()
-            throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
-    }
+
 
     /**
      * Reads the specified system property, using an AccessController so that
@@ -217,10 +214,7 @@ public class LogFactoryImpl extends LogFactory {
      * info to access data that should not be available to it.
      * </p>
      */
-    private static String getSystemProperty(final String key, final String def)
-            throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
-    }
+
 
     /**
      * Workaround for bug in Java1.2; in theory this method is not needed.
@@ -571,25 +565,13 @@ public class LogFactoryImpl extends LogFactory {
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY + "'");
             }
-            try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY, null);
-            } catch (final SecurityException e) {
-                if (isDiagnosticsEnabled()) {
-                    logDiagnostic("No access allowed to system property '" + LOG_PROPERTY + "' - " + e.getMessage());
-                }
-            }
+
         }
         if (specifiedClass == null) { // @deprecated
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY_OLD + "'");
             }
-            try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY_OLD, null);
-            } catch (final SecurityException e) {
-                if (isDiagnosticsEnabled()) {
-                    logDiagnostic("No access allowed to system property '" + LOG_PROPERTY_OLD + "' - " + e.getMessage());
-                }
-            }
+
         }
         // Remove any whitespace; it's never valid in a class name so its
         // presence just means a user mistake. As we know what they meant,
@@ -645,9 +627,9 @@ public class LogFactoryImpl extends LogFactory {
         if (!useTCCL) {
             return thisClassLoader;
         }
-        final ClassLoader contextClassLoader = getContextClassLoaderInternal();
-        final ClassLoader baseClassLoader = getLowestClassLoader(contextClassLoader, thisClassLoader);
-        if (baseClassLoader == null) {
+
+
+        if (true) {
             // The two class loaders are not part of a parent child relationship.
             // In some classloading setups (e.g. JBoss with its
             // UnifiedLoaderRepository) this can still work, so if user hasn't
@@ -663,9 +645,9 @@ public class LogFactoryImpl extends LogFactory {
             // If contextClassLoader were null, getLowestClassLoader() would
             // have returned thisClassLoader. The fact we are here means
             // contextClassLoader is not null, so we can just return it.
-            return contextClassLoader;
+
         }
-        if (baseClassLoader != contextClassLoader) {
+        if (true) {
             // We really should just use the contextClassLoader as the starting
             // point for scanning for log adapter classes. However it is expected
             // that there are a number of broken systems out there which create
@@ -680,7 +662,9 @@ public class LogFactoryImpl extends LogFactory {
                         " the same or a descendant. The application using commons-logging should ensure the context class loader is used correctly.");
             }
         }
-        return baseClassLoader;
+        ClassLoader baseClassLoader;
+
+        return thisClassLoader;
     }
 
     /**
@@ -726,7 +710,7 @@ public class LogFactoryImpl extends LogFactory {
             // property that the caller cannot, then output it in readable form as a
             // diagnostic message. However it's only ever JCL-specific properties
             // involved here, so the harm is truly trivial.
-            final String value = getSystemProperty(property, null);
+             String value ="sds";// getSystemProperty(property, null);
             if (value != null) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("[ENV] Found system property [" + value + "] for " + property);
@@ -866,12 +850,8 @@ public class LogFactoryImpl extends LogFactory {
      * </p>
      */
     private ClassLoader getParentClassLoader(final ClassLoader cl) {
-        try {
-            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> cl.getParent());
-        } catch (final SecurityException ex) {
-            logDiagnostic("[SECURITY] Unable to obtain parent class loader");
             return null;
-        }
+
     }
 
     /**
