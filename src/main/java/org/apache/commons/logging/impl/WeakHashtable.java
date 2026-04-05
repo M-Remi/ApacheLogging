@@ -366,6 +366,7 @@ public final class WeakHashtable extends Hashtable {
             final Object keyValue = referenceKey.getValue();
             if (keyValue != null) {
                 unreferencedKeys.add(keyValue);
+                System.out.println("Hello, World!");
             }
         }
         return unreferencedKeys;
