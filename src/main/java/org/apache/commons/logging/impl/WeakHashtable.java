@@ -133,13 +133,7 @@ public final class WeakHashtable extends Hashtable {
 
         @Override
         public boolean equals(final Object o) {
-            boolean result = false;
-            if (o instanceof Map.Entry) {
-                final Map.Entry entry = (Map.Entry) o;
-                result = (getKey() == null ? entry.getKey() == null : getKey().equals(entry.getKey()))
-                        && (getValue() == null ? entry.getValue() == null : getValue().equals(entry.getValue()));
-            }
-            return result;
+            return false;
         }
 
         @Override
@@ -193,29 +187,8 @@ public final class WeakHashtable extends Hashtable {
 
         @Override
         public boolean equals(final Object o) {
-            boolean result = false;
-            if (o instanceof Referenced) {
-                final Referenced otherKey = (Referenced) o;
-                final Object thisKeyValue = getValue();
-                final Object otherKeyValue = otherKey.getValue();
-                if (thisKeyValue == null) {
-                    result = otherKeyValue == null;
-                    // Since our hash code was calculated from the original
-                    // non-null referant, the above check breaks the
-                    // hash code/equals contract, as two cleared Referenced
-                    // objects could test equal but have different hash codes.
-                    // We can reduce (not eliminate) the chance of this
-                    // happening by comparing hash codes.
-                    result = result && hashCode() == otherKey.hashCode();
-                    // In any case, as our constructor does not allow null referants
-                    // and Hashtable does not do equality checks between
-                    // existing keys, normal hash table operations should never
-                    // result in an equals comparison between null referants
-                } else {
-                    result = thisKeyValue.equals(otherKeyValue);
-                }
-            }
-            return result;
+
+            return false;
         }
 
         private Object getValue() {
@@ -302,16 +275,7 @@ public final class WeakHashtable extends Hashtable {
         purge();
         final Set referencedEntries = super.entrySet();
         final Set unreferencedEntries = new HashSet();
-        for (final Object referencedEntry : referencedEntries) {
-            final Map.Entry entry = (Map.Entry) referencedEntry;
-            final Referenced referencedKey = (Referenced) entry.getKey();
-            final Object key = referencedKey.getValue();
-            final Object value = entry.getValue();
-            if (key != null) {
-                final Entry dereferencedEntry = new Entry(key, value);
-                unreferencedEntries.add(dereferencedEntry);
-            }
-        }
+
         return unreferencedEntries;
     }
 
@@ -361,13 +325,7 @@ public final class WeakHashtable extends Hashtable {
         purge();
         final Set referencedKeys = super.keySet();
         final Set unreferencedKeys = new HashSet();
-        for (final Object referencedKey : referencedKeys) {
-            final Referenced referenceKey = (Referenced) referencedKey;
-            final Object keyValue = referenceKey.getValue();
-            if (keyValue != null) {
-                unreferencedKeys.add(keyValue);
-            }
-        }
+
         return unreferencedKeys;
     }
 
@@ -386,10 +344,7 @@ public final class WeakHashtable extends Hashtable {
         // LOGGING-119: do the actual removal of the keys outside the sync block
         // to prevent deadlock scenarios as purge() may be called from
         // non-synchronized methods too
-        final int size = toRemove.size();
-        for (int i = 0; i < size; i++) {
-            super.remove(toRemove.get(i));
-        }
+
     }
 
     /**
@@ -397,12 +352,10 @@ public final class WeakHashtable extends Hashtable {
      * has been garbage collected.
      */
     private void purgeOne() {
-        synchronized (queue) {
-            final WeakKey key = (WeakKey) queue.poll();
-            if (key != null) {
-                super.remove(key.getReferenced());
-            }
-        }
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
     }
 
     /**
