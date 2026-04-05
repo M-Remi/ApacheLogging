@@ -101,7 +101,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void debug(final Object message, final Throwable exception) {
-        log(Level.FINE, String.valueOf(message), exception);
+
     }
 
     /**
@@ -124,7 +124,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void error(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
+
     }
 
     /**
@@ -147,7 +147,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void fatal(final Object message, final Throwable exception) {
-        log(Level.SEVERE, String.valueOf(message), exception);
+
     }
 
     /**
@@ -155,31 +155,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * first entry that is not this class.
      */
     private void getClassAndMethod() {
-        try {
-            final Throwable throwable = new Throwable();
-            throwable.fillInStackTrace();
-            final StringWriter stringWriter = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(stringWriter);
-            throwable.printStackTrace(printWriter);
-            final String traceString = stringWriter.toString();
-            final StringTokenizer tokenizer = new StringTokenizer(traceString, "\n");
-            tokenizer.nextToken();
-            String line = tokenizer.nextToken();
-            while (!line.contains(this.getClass().getName())) {
-                line = tokenizer.nextToken();
-            }
-            while (line.contains(this.getClass().getName())) {
-                line = tokenizer.nextToken();
-            }
-            final int start = line.indexOf("at ") + 3;
-            final int end = line.indexOf('(');
-            final String temp = line.substring(start, end);
-            final int lastPeriod = temp.lastIndexOf('.');
-            sourceClassName = temp.substring(0, lastPeriod);
-            sourceMethodName = temp.substring(lastPeriod + 1);
-        } catch (final Exception ex) {
-            // ignore - leave class and methodname unknown
-        }
+
         classAndMethodFound = true;
     }
 
@@ -189,9 +165,6 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      * @return the native Logger instance we are using.
      */
     public Logger getLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger(name);
-        }
         return logger;
     }
 
@@ -215,7 +188,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void info(final Object message, final Throwable exception) {
-        log(Level.INFO, String.valueOf(message), exception);
+
     }
 
     /**
@@ -267,18 +240,7 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
     }
 
     private void log( final Level level, final String msg, final Throwable ex ) {
-        if ( getLogger().isLoggable(level) ) {
-            final LogRecord record = new LogRecord(level, msg);
-            if ( !classAndMethodFound ) {
-                getClassAndMethod();
-            }
-            record.setSourceClassName(sourceClassName);
-            record.setSourceMethodName(sourceMethodName);
-            if ( ex != null ) {
-                record.setThrown(ex);
-            }
-            getLogger().log(record);
-        }
+
     }
 
     /**
@@ -301,7 +263,6 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void trace(final Object message, final Throwable exception) {
-        log(Level.FINEST, String.valueOf(message), exception);
     }
 
     /**
@@ -324,6 +285,6 @@ public class Jdk13LumberjackLogger implements Log, Serializable {
      */
     @Override
     public void warn(final Object message, final Throwable exception) {
-        log(Level.WARNING, String.valueOf(message), exception);
+
     }
 }

@@ -86,14 +86,12 @@ public class Log4JLogger implements Log, Serializable {
     private transient volatile Logger logger;
 
     /** Logger name */
-    private final String name;
+
 
     /**
      * Constructs a new instance.
      */
-    public Log4JLogger() {
-        name = null;
-    }
+
 
     /**
      * For use with a Log4j factory.
@@ -101,11 +99,7 @@ public class Log4JLogger implements Log, Serializable {
      * @param logger Logger.
      */
     public Log4JLogger(final Logger logger) {
-        if (logger == null) {
-            throw new IllegalArgumentException("Warning - null logger in constructor; possible Log4j misconfiguration.");
-        }
-        this.name = logger.getName();
-        this.logger = logger;
+
     }
 
     /**
@@ -114,7 +108,7 @@ public class Log4JLogger implements Log, Serializable {
      * @param name name.
      */
     public Log4JLogger(final String name) {
-        this.name = name;
+
         this.logger = getLogger();
     }
 
@@ -194,14 +188,6 @@ public class Log4JLogger implements Log, Serializable {
      */
     public Logger getLogger() {
         Logger result = logger;
-        if (result == null) {
-            synchronized(this) {
-                result = logger;
-                if (result == null) {
-                    logger = result = Logger.getLogger(name);
-                }
-            }
-        }
         return result;
     }
 
