@@ -116,6 +116,50 @@ public class Jdk14Logger implements Log, Serializable {
     @Override
     public void fatal(final Object message) {
         log(Level.SEVERE, String.valueOf(message), null);
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
     }
 
     /**
