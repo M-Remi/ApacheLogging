@@ -151,6 +151,45 @@ public class Jdk14Logger implements Log, Serializable {
     @Override
     public void info(final Object message) {
         log(Level.INFO, String.valueOf(message), null);
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
+
+
     }
 
     /**
