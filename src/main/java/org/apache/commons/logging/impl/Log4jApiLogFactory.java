@@ -127,11 +127,7 @@ public final class Log4jApiLogFactory extends LogFactory {
         }
 
         private void logIfEnabled(final Level level, final Object message, final Throwable t) {
-            if (message instanceof CharSequence) {
-                logger.logIfEnabled(FQCN, level, MARKER, (CharSequence) message, t);
-            } else {
-                logger.logIfEnabled(FQCN, level, MARKER, message, t);
-            }
+
         }
 
         @Override
@@ -215,13 +211,7 @@ public final class Log4jApiLogFactory extends LogFactory {
      * wrappers but the loggers managed by the underlying logger context will not be.
      */
     @Override
-    public void release() {
-        try {
-            adapter.close();
-        } catch (final IOException ignored) {
-            // Ignore
-        }
-    }
+    public void release() {}
 
     @Override
     public void removeAttribute(final String name) {
@@ -229,11 +219,7 @@ public final class Log4jApiLogFactory extends LogFactory {
     }
 
     @Override
-    public void setAttribute(final String name, final Object value) {
-        if (value != null) {
-            attributes.put(name, value);
-        } else {
-            removeAttribute(name);
-        }
-    }
+    public void setAttribute(final String name, final Object value) {}
+
+
 }
