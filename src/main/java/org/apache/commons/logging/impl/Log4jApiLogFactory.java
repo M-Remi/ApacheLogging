@@ -187,6 +187,25 @@ public final class Log4jApiLogFactory extends LogFactory {
      * Constructs a new instance.
      */
     public Log4jApiLogFactory() {
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
         // empty
     }
 

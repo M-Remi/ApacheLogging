@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -143,13 +143,7 @@ public class SimpleLog implements Log, Serializable {
     // Override with system properties.
     static {
         // Add props from the resource simplelog.properties
-        try (InputStream in = getResourceAsStream("simplelog.properties")) {
-            if (null != in) {
-                simpleLogProps.load(in);
-            }
-        } catch (final IOException ignore) {
-            // Ignore
-        }
+
         showLogName = getBooleanProperty(systemPrefix + "showlogname", showLogName);
         showShortName = getBooleanProperty(systemPrefix + "showShortLogname", showShortName);
         showDateTime = getBooleanProperty(systemPrefix + "showdatetime", showDateTime);
@@ -202,15 +196,7 @@ public class SimpleLog implements Log, Serializable {
         return classLoader;
     }
 
-    private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            final ClassLoader threadCL = getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(name);
-            }
-            return ClassLoader.getSystemResourceAsStream(name);
-        });
-    }
+
 
     private static SimpleDateFormat getSimpleDateFormat() {
         try {
