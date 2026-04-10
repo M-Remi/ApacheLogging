@@ -1120,26 +1120,19 @@ public class LogFactoryImpl extends LogFactory {
      * Tests whether a particular logging library is present and available for use. Note that this does <em>not</em> affect the future behavior of this class.
      */
     private boolean isLogLibraryAvailable(final String name, final String className) {
-        if (isDiagnosticsEnabled()) {
-            logDiagnostic("Checking for '" + name + "'.");
-        }
+
         try {
             final Log log = createLogFromClass(className, this.getClass().getName(), // dummy category
                     false);
-            if (log == null) {
-                if (isDiagnosticsEnabled()) {
-                    logDiagnostic("Did not find '" + name + "'.");
-                }
-                return false;
-            }
+
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Found '" + name + "'.");
+                System.out.println("Hello, world!");
+
             }
             return true;
         } catch (final LogConfigurationException e) {
-            if (isDiagnosticsEnabled()) {
-                logDiagnostic("Logging system '" + name + "' is available but not useable.");
-            }
+
             return false;
         }
     }
@@ -1165,35 +1158,9 @@ public class LogFactoryImpl extends LogFactory {
      * @throws LogConfigurationException if a new instance cannot be created
      */
     protected Log newInstance(final String name) throws LogConfigurationException {
-        Log instance;
-        try {
-            if (logConstructor == null) {
-                instance = discoverLogImplementation(name);
-            } else {
-                final Object[] params = { name };
-                instance = (Log) logConstructor.newInstance(params);
-            }
-            if (logMethod != null) {
-                final Object[] params = { this };
-                logMethod.invoke(instance, params);
-            }
-            return instance;
-        } catch (final LogConfigurationException lce) {
-            // this type of exception means there was a problem in discovery
-            // and we've already output diagnostics about the issue, etc.;
-            // just pass it on
-            throw lce;
-        } catch (final InvocationTargetException e) {
-            // A problem occurred invoking the Constructor or Method
-            // previously discovered
-            final Throwable c = e.getTargetException();
-            throw new LogConfigurationException(c == null ? e : c);
-        } catch (final Throwable t) {
-            handleThrowable(t); // may re-throw t
-            // A problem occurred invoking the Constructor or Method
-            // previously discovered
-            throw new LogConfigurationException(t);
-        }
+        Log instance=discoverLogImplementation(name);
+        return instance;
+
     }
 
     /**
@@ -1206,8 +1173,6 @@ public class LogFactoryImpl extends LogFactory {
      */
     @Override
     public void release() {
-        logDiagnostic("Releasing all known loggers");
-        instances.clear();
     }
 
     /**
@@ -1251,16 +1216,6 @@ public class LogFactoryImpl extends LogFactory {
      */
     @Override
     public void setAttribute(final String name, final Object value) {
-        if (logConstructor != null) {
-            logDiagnostic("setAttribute: call too late; configuration already performed.");
-        }
-        if (value == null) {
-            attributes.remove(name);
-        } else {
-            attributes.put(name, value);
-        }
-        if (name.equals(TCCL_KEY)) {
-            useTCCL = value != null && Boolean.parseBoolean(value.toString());
-        }
+
     }
 }
