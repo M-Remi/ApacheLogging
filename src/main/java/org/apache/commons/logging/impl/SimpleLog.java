@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -141,24 +141,7 @@ public class SimpleLog implements Log, Serializable {
     // Initialize class attributes.
     // Load properties file, if found.
     // Override with system properties.
-    static {
-        // Add props from the resource simplelog.properties
-        try (InputStream in = getResourceAsStream("simplelog.properties")) {
-            if (null != in) {
-                simpleLogProps.load(in);
-            }
-        } catch (final IOException ignore) {
-            // Ignore
-        }
-        showLogName = getBooleanProperty(systemPrefix + "showlogname", showLogName);
-        showShortName = getBooleanProperty(systemPrefix + "showShortLogname", showShortName);
-        showDateTime = getBooleanProperty(systemPrefix + "showdatetime", showDateTime);
-        if (showDateTime) {
-            final SimpleDateFormat simpleDateFormatter = getSimpleDateFormat();
-            dateFormatter = simpleDateFormatter;
-            dateTimeFormat = simpleDateFormatter.toPattern();
-        }
-    }
+
 
     private static boolean getBooleanProperty(final String name, final boolean defaultValue) {
         final String prop = getStringProperty(name);
@@ -202,15 +185,7 @@ public class SimpleLog implements Log, Serializable {
         return classLoader;
     }
 
-    private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            final ClassLoader threadCL = getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(name);
-            }
-            return ClassLoader.getSystemResourceAsStream(name);
-        });
-    }
+
 
     private static SimpleDateFormat getSimpleDateFormat() {
         try {
