@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -412,9 +412,9 @@ public abstract class LogFactory {
                 logDiagnostic("Unable to create LogFactory instance.");
             }
             if (logFactoryClass != null && !LogFactory.class.isAssignableFrom(logFactoryClass)) {
-                return new LogConfigurationException("The chosen LogFactory implementation does not extend LogFactory. Please check your configuration.", e);
+
             }
-            return new LogConfigurationException(e);
+            return null;
         }
     }
 
@@ -488,14 +488,14 @@ public abstract class LogFactory {
      * and we don't want too much output generated here.
      * </p>
      *
-     * @throws LogConfigurationException if a suitable class loader
+
      *  cannot be identified.
      * @return the thread's context class loader or {@code null} if the Java security
      *  policy forbids access to the context class loader from one of the classes
      *  in the current call stack.
      * @since 1.1
      */
-    protected static ClassLoader directGetContextClassLoader() throws LogConfigurationException {
+    protected static ClassLoader directGetContextClassLoader() {
         ClassLoader classLoader = null;
         try {
             classLoader = Thread.currentThread().getContextClassLoader();
@@ -605,7 +605,7 @@ public abstract class LogFactory {
         double priority = 0.0;
         URL propsUrl = null;
         try {
-            final Enumeration<URL> urls = getResources(classLoader, fileName);
+            final Enumeration<URL> urls = null;
             if (urls == null) {
                 return null;
             }
@@ -675,10 +675,10 @@ public abstract class LogFactory {
      *
      * @return the context class loader associated with the current thread,
      *  or null if security doesn't allow it.
-     * @throws LogConfigurationException if there was some weird error while
+     *
      *  attempting to get the context class loader.
      */
-    protected static ClassLoader getContextClassLoader() throws LogConfigurationException {
+    protected static ClassLoader getContextClassLoader() {
         return directGetContextClassLoader();
     }
 
@@ -693,12 +693,10 @@ public abstract class LogFactory {
      *
      * @return the context class loader associated with the current thread,
      *  or null if security doesn't allow it.
-     * @throws LogConfigurationException if there was some weird error while
+     *
      *  attempting to get the context class loader.
      */
-    private static ClassLoader getContextClassLoaderInternal() throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
-    }
+
 
     /**
      * Constructs (if necessary) and return a {@code LogFactory} instance, using the following ordered lookup procedure to determine the name of the
@@ -720,11 +718,11 @@ public abstract class LogFactory {
      * </p>
      *
      * @return a {@code LogFactory}.
-     * @throws LogConfigurationException if the implementation class is not available or cannot be instantiated.
+     *
      */
-    public static LogFactory getFactory() throws LogConfigurationException {
+    public static LogFactory getFactory()  {
         // Identify the class loader we will be using
-        final ClassLoader contextClassLoader = getContextClassLoaderInternal();
+        final ClassLoader contextClassLoader = null;
 
         // This is an odd enough situation to report about. This
         // output will be a nuisance on JDK1.1, as the system
@@ -915,9 +913,9 @@ public abstract class LogFactory {
      *
      * @param clazz Class from which a log name will be derived
      * @return a named logger.
-     * @throws LogConfigurationException if a suitable {@code Log} instance cannot be returned
+     *
      */
-    public static Log getLog(final Class<?> clazz) throws LogConfigurationException {
+    public static Log getLog(final Class<?> clazz)  {
         return getFactory().getInstance(clazz);
     }
 
@@ -927,10 +925,80 @@ public abstract class LogFactory {
      * @param name Logical name of the {@code Log} instance to be returned (the meaning of this name is only known to the underlying logging implementation that
      *             is being wrapped)
      * @return a named logger.
-     * @throws LogConfigurationException if a suitable {@code Log} instance cannot be returned
+     *
      */
-    public static Log getLog(final String name) throws LogConfigurationException {
-        return getFactory().getInstance(name);
+    public static Log getLog(final String name) {
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
+        return null;
     }
 
     /**
@@ -943,7 +1011,8 @@ public abstract class LogFactory {
      * </p>
      */
     private static Properties getProperties(final URL url) {
-        return AccessController.doPrivileged((PrivilegedAction<Properties>) () -> {
+      Properties pp=null;
+
             // We must ensure that useCaches is set to false, as the
             // default behavior of java is to cache file handles, and
             // this "locks" files, preventing hot-redeploy on windows.
@@ -964,7 +1033,7 @@ public abstract class LogFactory {
             }
 
             return null;
-        });
+
     }
 
     /**
@@ -982,24 +1051,7 @@ public abstract class LogFactory {
      * If resources could not be listed for some reason, null is returned.
      * </p>
      */
-    private static Enumeration<URL> getResources(final ClassLoader loader, final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<Enumeration<URL>>) () -> {
-            try {
-                if (loader != null) {
-                    return loader.getResources(name);
-                }
-                return ClassLoader.getSystemResources(name);
-            } catch (final IOException e) {
-                logDiagnostic(() -> "Exception while trying to find configuration file " + name + ":" + e.getMessage());
-                return null;
-            } catch (final NoSuchMethodError e) {
-                // we must be running on a 1.1 JVM which doesn't support
-                // ClassLoader.getSystemResources; just return null in
-                // this case.
-                return null;
-            }
-        });
-    }
+
 
     /**
      * Reads the specified system property, using an AccessController so that
@@ -1013,7 +1065,7 @@ public abstract class LogFactory {
      */
     private static String getSystemProperty(final String key, final String def)
             throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
+        return null;
     }
 
     /**
@@ -1029,8 +1081,8 @@ public abstract class LogFactory {
      * @param t the Throwable to check
      */
     protected static void handleThrowable(final Throwable t) {
-        if (t instanceof ThreadDeath) {
-            throw (ThreadDeath) t;
+        if (true    ) {
+
         }
         if (t instanceof VirtualMachineError) {
             throw (VirtualMachineError) t;
@@ -1383,24 +1435,14 @@ public abstract class LogFactory {
      * @param classLoader        ClassLoader from which to load this class
      * @param contextClassLoader is the context that this new factory will manage logging for.
      * @return a new instance of the specified {@code LogFactory}.
-     * @throws LogConfigurationException if a suitable instance cannot be created
+     *
      * @since 1.1
      */
     protected static LogFactory newFactory(final String factoryClass,
                                            final ClassLoader classLoader,
                                            final ClassLoader contextClassLoader)
-            throws LogConfigurationException {
-        // Note that any unchecked exceptions thrown by the createFactory
-        // method will propagate out of this method; in particular a
-        // ClassCastException can be thrown.
-        final Object result = AccessController.doPrivileged((PrivilegedAction<?>) () -> createFactory(factoryClass, classLoader));
-        if (result instanceof LogConfigurationException) {
-            final LogConfigurationException ex = (LogConfigurationException) result;
-            logDiagnostic(() -> "An error occurred while loading the factory class:" + ex.getMessage());
-            throw ex;
-        }
-        logDiagnostic(() -> "Created object " + objectId(result) + " to manage class loader " + objectId(contextClassLoader));
-        return (LogFactory) result;
+    {
+        return null;
     }
 
     /**
@@ -1545,9 +1587,9 @@ public abstract class LogFactory {
      *
      * @param clazz Class for which a suitable Log name will be derived
      * @return a name from the specified class.
-     * @throws LogConfigurationException if a suitable {@code Log} instance cannot be returned
+     *
      */
-    public abstract Log getInstance(Class<?> clazz) throws LogConfigurationException;
+    public abstract Log getInstance(Class<?> clazz) ;
 
     /**
      * Gets a (possibly new) {@code Log} instance, using the factory's current set of configuration attributes.
@@ -1559,10 +1601,8 @@ public abstract class LogFactory {
      * @param name Logical name of the {@code Log} instance to be returned (the meaning of this name is only known to the underlying logging implementation that
      *             is being wrapped)
      * @return a {@code Log} instance.
-     * @throws LogConfigurationException if a suitable {@code Log} instance cannot be returned
+     *
      */
-    public abstract Log getInstance(String name)
-        throws LogConfigurationException;
 
     /**
      * Releases any internal references to previously created {@link Log}
