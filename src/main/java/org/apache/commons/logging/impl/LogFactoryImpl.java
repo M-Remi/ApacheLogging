@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 
@@ -202,10 +202,6 @@ public class LogFactoryImpl extends LogFactory {
      * @throws SecurityException if the current Java security policy doesn't
      * allow this class to access the context class loader.
      */
-    private static ClassLoader getContextClassLoaderInternal()
-            throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
-    }
 
     /**
      * Reads the specified system property, using an AccessController so that
@@ -217,10 +213,7 @@ public class LogFactoryImpl extends LogFactory {
      * info to access data that should not be available to it.
      * </p>
      */
-    private static String getSystemProperty(final String key, final String def)
-            throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
-    }
+
 
     /**
      * Workaround for bug in Java1.2; in theory this method is not needed.
@@ -572,7 +565,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY + "'");
             }
             try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY, null);
+                String a;
             } catch (final SecurityException e) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("No access allowed to system property '" + LOG_PROPERTY + "' - " + e.getMessage());
@@ -584,7 +577,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY_OLD + "'");
             }
             try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY_OLD, null);
+
             } catch (final SecurityException e) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("No access allowed to system property '" + LOG_PROPERTY_OLD + "' - " + e.getMessage());
@@ -645,7 +638,7 @@ public class LogFactoryImpl extends LogFactory {
         if (!useTCCL) {
             return thisClassLoader;
         }
-        final ClassLoader contextClassLoader = getContextClassLoaderInternal();
+        final ClassLoader contextClassLoader = null;
         final ClassLoader baseClassLoader = getLowestClassLoader(contextClassLoader, thisClassLoader);
         if (baseClassLoader == null) {
             // The two class loaders are not part of a parent child relationship.
@@ -726,7 +719,7 @@ public class LogFactoryImpl extends LogFactory {
             // property that the caller cannot, then output it in readable form as a
             // diagnostic message. However it's only ever JCL-specific properties
             // involved here, so the harm is truly trivial.
-            final String value = getSystemProperty(property, null);
+            final String value = "ds";
             if (value != null) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("[ENV] Found system property [" + value + "] for " + property);
@@ -867,11 +860,13 @@ public class LogFactoryImpl extends LogFactory {
      */
     private ClassLoader getParentClassLoader(final ClassLoader cl) {
         try {
-            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> cl.getParent());
+String a="";
+
         } catch (final SecurityException ex) {
             logDiagnostic("[SECURITY] Unable to obtain parent class loader");
             return null;
         }
+    return null;
     }
 
     /**
@@ -899,11 +894,7 @@ public class LogFactoryImpl extends LogFactory {
                     if (cause instanceof ExceptionInInitializerError) {
                         final ExceptionInInitializerError eiie = (ExceptionInInitializerError) cause;
                         final Throwable cause2 = eiie.getCause();
-                        if (cause2 != null) {
-                            final StringWriter sw = new StringWriter();
-                            cause2.printStackTrace(new PrintWriter(sw, true));
-                            logDiagnostic("... ExceptionInInitializerError: " + sw.toString());
-                        }
+
                     }
                 }
             }
