@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 
 /**
  * Simple implementation of Log that sends all enabled log messages,
@@ -143,13 +142,10 @@ public class SimpleLog implements Log, Serializable {
     // Override with system properties.
     static {
         // Add props from the resource simplelog.properties
-        try (InputStream in = getResourceAsStream("simplelog.properties")) {
-            if (null != in) {
-                simpleLogProps.load(in);
+            if (true) {
+
             }
-        } catch (final IOException ignore) {
-            // Ignore
-        }
+
         showLogName = getBooleanProperty(systemPrefix + "showlogname", showLogName);
         showShortName = getBooleanProperty(systemPrefix + "showShortLogname", showShortName);
         showDateTime = getBooleanProperty(systemPrefix + "showdatetime", showDateTime);
@@ -170,47 +166,11 @@ public class SimpleLog implements Log, Serializable {
      *
      * The thread context class loader is available if certain security conditions are met.
      *
-     * @throws LogConfigurationException if a suitable class loader cannot be identified.
+
      */
-    private static ClassLoader getContextClassLoader() {
-        ClassLoader classLoader = null;
 
-        // Get the thread context class loader (if there is one)
-        try {
-            classLoader = Thread.currentThread().getContextClassLoader();
-        } catch (final RuntimeException e) {
 
-            /**
-             * getContextClassLoader() throws SecurityException when the context class loader isn't an ancestor of the calling class's class loader, or if
-             * security permissions are restricted.
-             *
-             * In the first case (not related), we want to ignore and keep going. We cannot help but also ignore the second with the logic below, but other
-             * calls elsewhere (to obtain a class loader) will trigger this exception where we can make a distinction.
-             */
-            // Capture 'e.getTargetException()' exception for details
-            // alternate: log 'e.getTargetException()', and pass back 'e'.
-            if (!(e instanceof SecurityException)) {
-                throw new LogConfigurationException("Unexpected SecurityException", e);
-            }
-        }
 
-        if (classLoader == null) {
-            classLoader = SimpleLog.class.getClassLoader();
-        }
-
-        // Return the selected class loader
-        return classLoader;
-    }
-
-    private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            final ClassLoader threadCL = getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(name);
-            }
-            return ClassLoader.getSystemResourceAsStream(name);
-        });
-    }
 
     private static SimpleDateFormat getSimpleDateFormat() {
         try {
@@ -540,60 +500,12 @@ public class SimpleLog implements Log, Serializable {
         }
 
         // Append a readable representation of the log level
-        switch (type) {
-        case LOG_LEVEL_TRACE:
-            buf.append("[TRACE] ");
-            break;
-        case LOG_LEVEL_DEBUG:
-            buf.append("[DEBUG] ");
-            break;
-        case LOG_LEVEL_INFO:
-            buf.append("[INFO] ");
-            break;
-        case LOG_LEVEL_WARN:
-            buf.append("[WARN] ");
-            break;
-        case LOG_LEVEL_ERROR:
-            buf.append("[ERROR] ");
-            break;
-        case LOG_LEVEL_FATAL:
-            buf.append("[FATAL] ");
-            break;
-        default:
-            // Or throw?
-            buf.append("[UNDEFINED] ");
-            break;
-        }
+
 
         // Append the name of the log instance if so configured
-        if (showShortName) {
-            if (shortLogName == null) {
-                // Cut all but the last component of the name for both styles
-                final String slName = logName.substring(logName.lastIndexOf(".") + 1);
-                shortLogName = slName.substring(slName.lastIndexOf("/") + 1);
-            }
-            buf.append(String.valueOf(shortLogName)).append(" - ");
-        } else if (showLogName) {
-            buf.append(String.valueOf(logName)).append(" - ");
-        }
-
-        // Append the message
-        buf.append(String.valueOf(message));
 
         // Append stack trace if not null
-        if (t != null) {
-            buf.append(" <");
-            buf.append(t.toString());
-            buf.append(">");
 
-            final StringWriter sw = new StringWriter(1024);
-            try (PrintWriter pw = new PrintWriter(sw)) {
-                t.printStackTrace(pw);
-            }
-            buf.append(sw.toString());
-        }
-
-        // Print to the appropriate destination
         write(buf);
     }
 
