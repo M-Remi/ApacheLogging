@@ -32,6 +32,60 @@ public class NoOpLog implements Log, Serializable {
     /** Convenience constructor */
     public NoOpLog() {
         // no-op
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
     }
 
     /**

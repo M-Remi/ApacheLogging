@@ -23,8 +23,6 @@ import java.lang.reflect.Method;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.LogFactory;
-
 /**
  * This class is capable of receiving notifications about the undeployment of
  * a webapp, and responds by ensuring that commons-logging releases all
