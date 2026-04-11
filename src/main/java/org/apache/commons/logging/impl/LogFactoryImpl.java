@@ -19,16 +19,16 @@ package org.apache.commons.logging.impl;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.classfile.instruction.ExceptionCatch;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -180,9 +180,6 @@ public class LogFactoryImpl extends LogFactory {
      * @return the context ClassLoader
      * @since 1.1
      */
-    protected static ClassLoader getContextClassLoader() throws LogConfigurationException {
-        return LogFactory.getContextClassLoader();
-    }
 
     /**
      * Calls LogFactory.directGetContextClassLoader under the control of an
@@ -196,16 +193,13 @@ public class LogFactoryImpl extends LogFactory {
      * @return the context class loader associated with the current thread,
      * or null if security doesn't allow it.
      *
-     * @throws LogConfigurationException if there was some weird error while
+     *
      * attempting to get the context class loader.
      *
      * @throws SecurityException if the current Java security policy doesn't
      * allow this class to access the context class loader.
      */
-    private static ClassLoader getContextClassLoaderInternal()
-            throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
-    }
+
 
     /**
      * Reads the specified system property, using an AccessController so that
@@ -217,10 +211,7 @@ public class LogFactoryImpl extends LogFactory {
      * info to access data that should not be available to it.
      * </p>
      */
-    private static String getSystemProperty(final String key, final String def)
-            throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
-    }
+
 
     /**
      * Workaround for bug in Java1.2; in theory this method is not needed.
@@ -327,11 +318,11 @@ public class LogFactoryImpl extends LogFactory {
      *  be affected by this method call, {@code false} otherwise.
      * @return  an instance of the given class, or null if the logging
      *  library associated with the specified adapter is not available.
-     * @throws LogConfigurationException if there was a serious error with
+
      *  configuration and the handleFlawedDiscovery method decided this
      *  problem was fatal.
      */
-    private Log createLogFromClass(final String logAdapterClassName, final String logCategory, final boolean affectState) throws LogConfigurationException {
+    private Log createLogFromClass(final String logAdapterClassName, final String logCategory, final boolean affectState){
         if (isDiagnosticsEnabled()) {
             logDiagnostic("Attempting to instantiate '" + logAdapterClassName + "'");
         }
@@ -431,7 +422,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("The log adapter '" + logAdapterClassName + "' is unable to initialize itself when loaded via class loader " +
                         objectId(currentCL) + ": " + trim(msg));
                 break;
-            } catch (final LogConfigurationException e) {
+            } catch (final SecurityException e) {
                 // call to handleFlawedHierarchy above must have thrown
                 // a LogConfigurationException, so just throw it on
                 throw e;
@@ -479,11 +470,11 @@ public class LogFactoryImpl extends LogFactory {
      * Follows the discovery process described in the class Javadoc.
      *
      * @param logCategory the name of the log category
-     * @throws LogConfigurationException if an error in discovery occurs,
+
      * or if no adapter at all can be instantiated
      */
     private Log discoverLogImplementation(final String logCategory)
-            throws LogConfigurationException {
+             {
         if (isDiagnosticsEnabled()) {
             logDiagnostic("Discovering a Log implementation...");
         }
@@ -506,7 +497,7 @@ public class LogFactoryImpl extends LogFactory {
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_JDK14_LOGGER);
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_LUMBERJACK_LOGGER);
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_SIMPLE_LOGGER);
-                throw new LogConfigurationException(messageBuffer.toString());
+
             }
             return result;
         }
@@ -544,7 +535,7 @@ public class LogFactoryImpl extends LogFactory {
             result = createLogFromClass(DISCOVER_CLASSES[i], logCategory, true);
         }
         if (result == null) {
-            throw new LogConfigurationException("No suitable Log implementation");
+
         }
         return result;
     }
@@ -572,7 +563,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY + "'");
             }
             try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY, null);
+
             } catch (final SecurityException e) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("No access allowed to system property '" + LOG_PROPERTY + "' - " + e.getMessage());
@@ -584,7 +575,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Trying to get log class from system property '" + LOG_PROPERTY_OLD + "'");
             }
             try {
-                specifiedClass = getSystemProperty(LOG_PROPERTY_OLD, null);
+
             } catch (final SecurityException e) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("No access allowed to system property '" + LOG_PROPERTY_OLD + "' - " + e.getMessage());
@@ -640,12 +631,12 @@ public class LogFactoryImpl extends LogFactory {
      * simply generate a warning rather than fail outright.
      * </p>
      */
-    private ClassLoader getBaseClassLoader() throws LogConfigurationException {
+    private ClassLoader getBaseClassLoader()  {
         final ClassLoader thisClassLoader = getClassLoader(LogFactoryImpl.class);
         if (!useTCCL) {
             return thisClassLoader;
         }
-        final ClassLoader contextClassLoader = getContextClassLoaderInternal();
+        final ClassLoader contextClassLoader=null;
         final ClassLoader baseClassLoader = getLowestClassLoader(contextClassLoader, thisClassLoader);
         if (baseClassLoader == null) {
             // The two class loaders are not part of a parent child relationship.
@@ -653,8 +644,7 @@ public class LogFactoryImpl extends LogFactory {
             // UnifiedLoaderRepository) this can still work, so if user hasn't
             // forbidden it, just return the contextClassLoader.
             if (!allowFlawedContext) {
-                throw new LogConfigurationException(
-                        "Bad class loader hierarchy; LogFactoryImpl was loaded via a class loader that is not related to the current context class loader.");
+
             }
             if (isDiagnosticsEnabled()) {
                 logDiagnostic(
@@ -672,8 +662,7 @@ public class LogFactoryImpl extends LogFactory {
             // custom class loaders but fail to set the context class loader so
             // we handle those flawed systems anyway.
             if (!allowFlawedContext) {
-                throw new LogConfigurationException(
-                        "Bad class loader hierarchy; LogFactoryImpl was loaded via a class loader that is not related to the current context class loader.");
+
             }
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Warning: the context class loader is an ancestor of the class loader that loaded LogFactoryImpl; it should be" +
@@ -726,7 +715,7 @@ public class LogFactoryImpl extends LogFactory {
             // property that the caller cannot, then output it in readable form as a
             // diagnostic message. However it's only ever JCL-specific properties
             // involved here, so the harm is truly trivial.
-            final String value = getSystemProperty(property, null);
+            final String value = "";
             if (value != null) {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic("[ENV] Found system property [" + value + "] for " + property);
@@ -752,11 +741,11 @@ public class LogFactoryImpl extends LogFactory {
      * call {@code getInstance(String)} with it.
      *
      * @param clazz Class for which a suitable Log name will be derived
-     * @throws LogConfigurationException if a suitable {@code Log}
+     *
      *  instance cannot be returned
      */
     @Override
-    public Log getInstance(final Class<?> clazz) throws LogConfigurationException {
+    public Log getInstance(final Class<?> clazz)  {
         return getInstance(clazz.getName());
     }
 
@@ -773,13 +762,12 @@ public class LogFactoryImpl extends LogFactory {
      * @param name Logical name of the {@code Log} instance to be
      *  returned (the meaning of this name is only known to the underlying
      *  logging implementation that is being wrapped)
-     *
-     * @throws LogConfigurationException if a suitable {@code Log}
+
      *  instance cannot be returned
      */
     @Override
-    public Log getInstance(final String name) throws LogConfigurationException {
-        return instances.computeIfAbsent(name, this::newInstance);
+    public Log getInstance(final String name)  {
+        return null;
     }
 
     /**
@@ -804,11 +792,11 @@ public class LogFactoryImpl extends LogFactory {
      * </p>
      *
      * @return the {@code Constructor} that can be called to instantiate new {@link org.apache.commons.logging.Log} instances.
-     * @throws LogConfigurationException if a suitable constructor cannot be returned
+
      * @deprecated Never invoked by this class; subclasses should not assume it will be.
      */
     @Deprecated
-    protected Constructor<?> getLogConstructor() throws LogConfigurationException {
+    protected Constructor<?> getLogConstructor()  {
         // Return the previously identified Constructor (if any)
         if (logConstructor == null) {
             discoverLogImplementation(getClass().getName());
@@ -867,12 +855,12 @@ public class LogFactoryImpl extends LogFactory {
      */
     private ClassLoader getParentClassLoader(final ClassLoader cl) {
         try {
-            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> cl.getParent());
+
         } catch (final SecurityException ex) {
             logDiagnostic("[SECURITY] Unable to obtain parent class loader");
             return null;
         }
-    }
+        return null;}
 
     /**
      * Generates an internal diagnostic logging of the discovery failure and
@@ -882,7 +870,7 @@ public class LogFactoryImpl extends LogFactory {
      * @param logAdapterClassName is the class name of the Log implementation
      * that could not be instantiated. Cannot be {@code null}.
      * @param discoveryFlaw is the Throwable created by the class loader
-     * @throws LogConfigurationException    ALWAYS
+     *
      */
     private void handleFlawedDiscovery(final String logAdapterClassName, final Throwable discoveryFlaw) {
         if (isDiagnosticsEnabled()) {
@@ -909,7 +897,7 @@ public class LogFactoryImpl extends LogFactory {
             }
         }
         if (!allowFlawedDiscovery) {
-            throw new LogConfigurationException(discoveryFlaw);
+
         }
     }
 
@@ -938,10 +926,10 @@ public class LogFactoryImpl extends LogFactory {
      * @param badClass is a Class object with the desired name, but which
      * does not implement Log correctly.
      *
-     * @throws LogConfigurationException when the situation
+     *
      * should not be recovered from.
      */
-    private void handleFlawedHierarchy(final ClassLoader badClassLoader, final Class<?> badClass) throws LogConfigurationException {
+    private void handleFlawedHierarchy(final ClassLoader badClassLoader, final Class<?> badClass)  {
         boolean implementsLog = false;
         final String logInterfaceName = Log.class.getName();
         final Class<?>[] interfaces = badClass.getInterfaces();
@@ -974,7 +962,7 @@ public class LogFactoryImpl extends LogFactory {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic(msg.toString());
                 }
-                throw new LogConfigurationException(msg.toString());
+
             }
             if (isDiagnosticsEnabled()) {
                 final StringBuilder msg = new StringBuilder();
@@ -995,7 +983,7 @@ public class LogFactoryImpl extends LogFactory {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic(msg.toString());
                 }
-                throw new LogConfigurationException(msg.toString());
+
             }
             if (isDiagnosticsEnabled()) {
                 final StringBuilder msg = new StringBuilder();
@@ -1123,7 +1111,7 @@ public class LogFactoryImpl extends LogFactory {
         if (isDiagnosticsEnabled()) {
             logDiagnostic("Checking for '" + name + "'.");
         }
-        try {
+
             final Log log = createLogFromClass(className, this.getClass().getName(), // dummy category
                     false);
             if (log == null) {
@@ -1136,12 +1124,10 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Found '" + name + "'.");
             }
             return true;
-        } catch (final LogConfigurationException e) {
-            if (isDiagnosticsEnabled()) {
-                logDiagnostic("Logging system '" + name + "' is available but not useable.");
-            }
-            return false;
-        }
+
+
+
+
     }
 
     /**
@@ -1155,6 +1141,31 @@ public class LogFactoryImpl extends LogFactory {
         if (isDiagnosticsEnabled()) {
             logRawDiagnostic(diagnosticPrefix + msg);
         }
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+        System.out.println("Hello, World!");
+
     }
 
     /**
@@ -1162,39 +1173,9 @@ public class LogFactoryImpl extends LogFactory {
      *
      * @param name Name of the new logger
      * @return a new {@link org.apache.commons.logging.Log}
-     * @throws LogConfigurationException if a new instance cannot be created
+
      */
-    protected Log newInstance(final String name) throws LogConfigurationException {
-        Log instance;
-        try {
-            if (logConstructor == null) {
-                instance = discoverLogImplementation(name);
-            } else {
-                final Object[] params = { name };
-                instance = (Log) logConstructor.newInstance(params);
-            }
-            if (logMethod != null) {
-                final Object[] params = { this };
-                logMethod.invoke(instance, params);
-            }
-            return instance;
-        } catch (final LogConfigurationException lce) {
-            // this type of exception means there was a problem in discovery
-            // and we've already output diagnostics about the issue, etc.;
-            // just pass it on
-            throw lce;
-        } catch (final InvocationTargetException e) {
-            // A problem occurred invoking the Constructor or Method
-            // previously discovered
-            final Throwable c = e.getTargetException();
-            throw new LogConfigurationException(c == null ? e : c);
-        } catch (final Throwable t) {
-            handleThrowable(t); // may re-throw t
-            // A problem occurred invoking the Constructor or Method
-            // previously discovered
-            throw new LogConfigurationException(t);
-        }
-    }
+
 
     /**
      * Releases any internal references to previously created
