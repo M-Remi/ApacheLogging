@@ -726,24 +726,15 @@ public abstract class LogFactory {
         // Identify the class loader we will be using
         final ClassLoader contextClassLoader = getContextClassLoaderInternal();
 
-        // This is an odd enough situation to report about. This
-        // output will be a nuisance on JDK1.1, as the system
-        // class loader is null in that environment.
-        if (contextClassLoader == null) {
-            logDiagnostic("Context class loader is null.");
-        }
+
 
         // Return any previously registered factory for this class loader
         LogFactory factory = getCachedFactory(contextClassLoader);
-        if (factory != null) {
-            return factory;
-        }
+
 
         if (isDiagnosticsEnabled()) {
-            logDiagnostic(
-                    "[LOOKUP] LogFactory implementation requested for the first time for context class loader " +
-                    objectId(contextClassLoader));
-            logHierarchy("[LOOKUP] ", contextClassLoader);
+            System.out.println("Hello, World!");
+            System.out.println("Hello, World!");
         }
 
         // Load properties file.
