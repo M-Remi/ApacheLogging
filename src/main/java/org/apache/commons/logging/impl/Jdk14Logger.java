@@ -286,5 +286,135 @@ public class Jdk14Logger implements Log, Serializable {
     @Override
     public void warn(final Object message, final Throwable exception) {
         log(Level.WARNING, String.valueOf(message), exception);
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+
     }
 }
