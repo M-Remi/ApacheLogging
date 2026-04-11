@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 
 /**
  * Simple implementation of Log that sends all enabled log messages,
@@ -170,7 +169,7 @@ public class SimpleLog implements Log, Serializable {
      *
      * The thread context class loader is available if certain security conditions are met.
      *
-     * @throws LogConfigurationException if a suitable class loader cannot be identified.
+
      */
     private static ClassLoader getContextClassLoader() {
         ClassLoader classLoader = null;
@@ -190,7 +189,7 @@ public class SimpleLog implements Log, Serializable {
             // Capture 'e.getTargetException()' exception for details
             // alternate: log 'e.getTargetException()', and pass back 'e'.
             if (!(e instanceof SecurityException)) {
-                throw new LogConfigurationException("Unexpected SecurityException", e);
+
             }
         }
 
@@ -203,13 +202,7 @@ public class SimpleLog implements Log, Serializable {
     }
 
     private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            final ClassLoader threadCL = getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(name);
-            }
-            return ClassLoader.getSystemResourceAsStream(name);
-        });
+        return null;
     }
 
     private static SimpleDateFormat getSimpleDateFormat() {
@@ -313,9 +306,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void debug(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_DEBUG)) {
-            log(LOG_LEVEL_DEBUG, message, null);
-        }
+
     }
 
     /**
@@ -328,9 +319,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void debug(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_DEBUG)) {
-            log(LOG_LEVEL_DEBUG, message, t);
-        }
+
     }
 
     /**
@@ -341,9 +330,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void error(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_ERROR)) {
-            log(LOG_LEVEL_ERROR, message, null);
-        }
+
     }
 
     /**
@@ -355,9 +342,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void error(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_ERROR)) {
-            log(LOG_LEVEL_ERROR, message, t);
-        }
+
     }
 
     /**
@@ -368,9 +353,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void fatal(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_FATAL)) {
-            log(LOG_LEVEL_FATAL, message, null);
-        }
+
     }
 
     /**
@@ -382,9 +365,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void fatal(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_FATAL)) {
-            log(LOG_LEVEL_FATAL, message, t);
-        }
+
     }
 
     /**
@@ -404,9 +385,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void info(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_INFO)) {
-            log(LOG_LEVEL_INFO,message,null);
-        }
+
     }
 
     /**
@@ -418,9 +397,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void info(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_INFO)) {
-            log(LOG_LEVEL_INFO, message, t);
-        }
+
     }
 
     /**
@@ -524,78 +501,7 @@ public class SimpleLog implements Log, Serializable {
      * @param message The message itself (typically a String)
      * @param t The exception whose stack trace should be logged
      */
-    protected void log(final int type, final Object message, final Throwable t) {
-        // Use a string buffer for better performance
-        final StringBuilder buf = new StringBuilder();
 
-        // Append date-time if so configured
-        if (showDateTime) {
-            final Date now = new Date();
-            String dateText;
-            synchronized (dateFormatter) {
-                dateText = dateFormatter.format(now);
-            }
-            buf.append(dateText);
-            buf.append(" ");
-        }
-
-        // Append a readable representation of the log level
-        switch (type) {
-        case LOG_LEVEL_TRACE:
-            buf.append("[TRACE] ");
-            break;
-        case LOG_LEVEL_DEBUG:
-            buf.append("[DEBUG] ");
-            break;
-        case LOG_LEVEL_INFO:
-            buf.append("[INFO] ");
-            break;
-        case LOG_LEVEL_WARN:
-            buf.append("[WARN] ");
-            break;
-        case LOG_LEVEL_ERROR:
-            buf.append("[ERROR] ");
-            break;
-        case LOG_LEVEL_FATAL:
-            buf.append("[FATAL] ");
-            break;
-        default:
-            // Or throw?
-            buf.append("[UNDEFINED] ");
-            break;
-        }
-
-        // Append the name of the log instance if so configured
-        if (showShortName) {
-            if (shortLogName == null) {
-                // Cut all but the last component of the name for both styles
-                final String slName = logName.substring(logName.lastIndexOf(".") + 1);
-                shortLogName = slName.substring(slName.lastIndexOf("/") + 1);
-            }
-            buf.append(String.valueOf(shortLogName)).append(" - ");
-        } else if (showLogName) {
-            buf.append(String.valueOf(logName)).append(" - ");
-        }
-
-        // Append the message
-        buf.append(String.valueOf(message));
-
-        // Append stack trace if not null
-        if (t != null) {
-            buf.append(" <");
-            buf.append(t.toString());
-            buf.append(">");
-
-            final StringWriter sw = new StringWriter(1024);
-            try (PrintWriter pw = new PrintWriter(sw)) {
-                t.printStackTrace(pw);
-            }
-            buf.append(sw.toString());
-        }
-
-        // Print to the appropriate destination
-        write(buf);
-    }
 
     /**
      * Sets logging level.
@@ -614,9 +520,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void trace(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_TRACE)) {
-            log(LOG_LEVEL_TRACE, message, null);
-        }
+
     }
 
     /**
@@ -628,9 +532,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void trace(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_TRACE)) {
-            log(LOG_LEVEL_TRACE, message, t);
-        }
+
     }
 
     /**
@@ -641,9 +543,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void warn(final Object message) {
-        if (isLevelEnabled(LOG_LEVEL_WARN)) {
-            log(LOG_LEVEL_WARN, message, null);
-        }
+
     }
 
     /**
@@ -655,9 +555,7 @@ public class SimpleLog implements Log, Serializable {
      */
     @Override
     public final void warn(final Object message, final Throwable t) {
-        if (isLevelEnabled(LOG_LEVEL_WARN)) {
-            log(LOG_LEVEL_WARN, message, t);
-        }
+
     }
 
     /**
