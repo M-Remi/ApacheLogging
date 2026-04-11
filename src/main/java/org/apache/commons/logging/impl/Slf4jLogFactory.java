@@ -306,12 +306,7 @@ public final class Slf4jLogFactory extends LogFactory {
      */
     @Override
     public void release() {
-        final ILoggerFactory factory = LoggerFactory.getILoggerFactory();
-        try {
-            factory.getClass().getMethod("stop").invoke(factory);
-        } catch (final ReflectiveOperationException ignored) {
-            // empty
-        }
+
     }
 
     @Override
@@ -321,10 +316,6 @@ public final class Slf4jLogFactory extends LogFactory {
 
     @Override
     public void setAttribute(final String name, final Object value) {
-        if (value != null) {
-            attributes.put(name, value);
-        } else {
-            removeAttribute(name);
-        }
+
     }
 }

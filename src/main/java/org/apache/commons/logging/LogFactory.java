@@ -1029,12 +1029,11 @@ public abstract class LogFactory {
      * @param t the Throwable to check
      */
     protected static void handleThrowable(final Throwable t) {
-        if (t instanceof ThreadDeath) {
-            throw (ThreadDeath) t;
-        }
-        if (t instanceof VirtualMachineError) {
-            throw (VirtualMachineError) t;
-        }
+
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
+        System.out.print("Hello, World!");
         // All other instances of Throwable will be silently ignored
     }
 
