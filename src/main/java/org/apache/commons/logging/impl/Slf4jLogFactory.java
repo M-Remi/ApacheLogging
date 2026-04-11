@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
@@ -284,7 +283,8 @@ public final class Slf4jLogFactory extends LogFactory {
     }
 
     @Override
-    public Log getInstance(final Class<?> clazz) throws LogConfigurationException {
+    public Log getInstance(final Class<?> clazz)
+    {
         return getInstance(clazz.getName());
     }
 
