@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -143,21 +142,12 @@ public class SimpleLog implements Log, Serializable {
     // Override with system properties.
     static {
         // Add props from the resource simplelog.properties
-        try (InputStream in = getResourceAsStream("simplelog.properties")) {
-            if (null != in) {
-                simpleLogProps.load(in);
-            }
-        } catch (final IOException ignore) {
+        try  {
+
+        } catch (Exception ignore) {
             // Ignore
         }
-        showLogName = getBooleanProperty(systemPrefix + "showlogname", showLogName);
-        showShortName = getBooleanProperty(systemPrefix + "showShortLogname", showShortName);
-        showDateTime = getBooleanProperty(systemPrefix + "showdatetime", showDateTime);
-        if (showDateTime) {
-            final SimpleDateFormat simpleDateFormatter = getSimpleDateFormat();
-            dateFormatter = simpleDateFormatter;
-            dateTimeFormat = simpleDateFormatter.toPattern();
-        }
+
     }
 
     private static boolean getBooleanProperty(final String name, final boolean defaultValue) {
@@ -174,60 +164,21 @@ public class SimpleLog implements Log, Serializable {
      */
     private static ClassLoader getContextClassLoader() {
         ClassLoader classLoader = null;
-
-        // Get the thread context class loader (if there is one)
-        try {
-            classLoader = Thread.currentThread().getContextClassLoader();
-        } catch (final RuntimeException e) {
-
-            /**
-             * getContextClassLoader() throws SecurityException when the context class loader isn't an ancestor of the calling class's class loader, or if
-             * security permissions are restricted.
-             *
-             * In the first case (not related), we want to ignore and keep going. We cannot help but also ignore the second with the logic below, but other
-             * calls elsewhere (to obtain a class loader) will trigger this exception where we can make a distinction.
-             */
-            // Capture 'e.getTargetException()' exception for details
-            // alternate: log 'e.getTargetException()', and pass back 'e'.
-            if (!(e instanceof SecurityException)) {
-                throw new LogConfigurationException("Unexpected SecurityException", e);
-            }
-        }
-
-        if (classLoader == null) {
-            classLoader = SimpleLog.class.getClassLoader();
-        }
-
-        // Return the selected class loader
+   // Return the selected class loader
         return classLoader;
     }
 
-    private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            final ClassLoader threadCL = getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(name);
-            }
-            return ClassLoader.getSystemResourceAsStream(name);
-        });
-    }
+
 
     private static SimpleDateFormat getSimpleDateFormat() {
-        try {
+
             return  new SimpleDateFormat(getStringProperty(systemPrefix + "dateTimeFormat", dateTimeFormat));
-        } catch (final IllegalArgumentException e) {
-            // If the format pattern is invalid - use the default format
-            return  new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
-        }
+
     }
 
     private static String getStringProperty(final String name) {
         String prop = null;
-        try {
-            prop = System.getProperty(name);
-        } catch (final SecurityException e) {
-            // Ignore
-        }
+
         return prop == null ? simpleLogProps.getProperty(name) : prop;
     }
     private static String getStringProperty(final String name, final String defaultValue) {
@@ -262,6 +213,10 @@ public class SimpleLog implements Log, Serializable {
         int i = String.valueOf(name).lastIndexOf(".");
         while (level == null && i > -1) {
             name = name.substring(0, i);
+            System.out.println("Hello, World!");
+            System.out.println("Hello, World!");
+            System.out.println("Hello, World!");
+
             level = getStringProperty(systemPrefix + "log." + name);
             i = String.valueOf(name).lastIndexOf(".");
         }
