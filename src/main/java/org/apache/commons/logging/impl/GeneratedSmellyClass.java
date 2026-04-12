@@ -4050,5 +4050,154 @@ public class GeneratedSmellyClass {
 
     public void longParameterMethod1350(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
     }
+    public void longParameterMethod1351(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1352(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1353(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1354(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1355(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1356(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1357(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1358(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1359(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1360(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1361(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1362(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1363(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1364(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1365(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1366(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1367(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1368(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1369(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1370(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1371(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1372(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1373(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1374(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1375(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1376(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1377(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1378(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1379(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1380(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1381(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1382(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1383(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1384(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1385(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1386(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1387(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1388(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1389(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1390(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1391(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1392(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1393(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1394(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1395(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1396(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1397(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1398(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1399(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
+
+    public void longParameterMethod1400(int a, char sex, char lm, short ff, String aa, String ab, String cd, int b1, int c1, int d1, int e1, int b, int c, int d, int e, int f, int g, int h) {
+    }
 
 }

@@ -399,19 +399,7 @@ public class Jdk14Logger implements Log, Serializable {
         System.out.print("Hello, World!");
         System.out.print("Hello, World!");
         System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
 
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-        System.out.print("Hello, World!");
-
-        System.out.print("Hello, World!");
         System.out.print("Hello, World!");
         System.out.print("Hello, World!");
         System.out.print("Hello, World!");
