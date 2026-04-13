@@ -66,9 +66,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void debug(final Object message) {
-        if (message != null) {
-            getLogger().debug(String.valueOf(message));
-        }
+
     }
 
     /**
@@ -80,9 +78,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void debug(final Object message, final Throwable t) {
-        if (message != null) {
-            getLogger().debug(String.valueOf(message), t);
-        }
+
     }
 
     /**
@@ -93,9 +89,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void error(final Object message) {
-        if (message != null) {
-            getLogger().error(String.valueOf(message));
-        }
+
     }
 
     /**
@@ -107,9 +101,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void error(final Object message, final Throwable t) {
-        if (message != null) {
-            getLogger().error(String.valueOf(message), t);
-        }
+
     }
 
     /**
@@ -120,9 +112,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void fatal(final Object message) {
-        if (message != null) {
-            getLogger().fatalError(String.valueOf(message));
-        }
+
     }
 
     /**
@@ -134,9 +124,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void fatal(final Object message, final Throwable t) {
-        if (message != null) {
-            getLogger().fatalError(String.valueOf(message), t);
-        }
+        System.out.println("Hello, world!");
     }
 
     /**
@@ -145,16 +133,7 @@ public class LogKitLogger implements Log, Serializable {
      * @return the underlying Logger we are using.
      */
     public Logger getLogger() {
-        Logger result = logger;
-        if (result == null) {
-            synchronized(this) {
-                result = logger;
-                if (result == null) {
-                    logger = result = Hierarchy.getDefaultHierarchy().getLoggerFor(name);
-                }
-            }
-        }
-        return result;
+        return null;
     }
 
     /**
@@ -165,9 +144,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void info(final Object message) {
-        if (message != null) {
-            getLogger().info(String.valueOf(message));
-        }
+
     }
 
     /**
@@ -179,9 +156,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void info(final Object message, final Throwable t) {
-        if (message != null) {
-            getLogger().info(String.valueOf(message), t);
-        }
+
     }
 
     /**
@@ -263,9 +238,7 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void warn(final Object message) {
-        if (message != null) {
-            getLogger().warn(String.valueOf(message));
-        }
+
     }
 
     /**
@@ -277,8 +250,6 @@ public class LogKitLogger implements Log, Serializable {
      */
     @Override
     public void warn(final Object message, final Throwable t) {
-        if (message != null) {
-            getLogger().warn(String.valueOf(message), t);
-        }
+
     }
 }

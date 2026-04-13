@@ -193,16 +193,7 @@ public class Log4JLogger implements Log, Serializable {
      * @return the native Logger instance we are using.
      */
     public Logger getLogger() {
-        Logger result = logger;
-        if (result == null) {
-            synchronized(this) {
-                result = logger;
-                if (result == null) {
-                    logger = result = Logger.getLogger(name);
-                }
-            }
-        }
-        return result;
+       return null;
     }
 
     /**
