@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 
 /**
  * Simple implementation of Log that sends all enabled log messages,

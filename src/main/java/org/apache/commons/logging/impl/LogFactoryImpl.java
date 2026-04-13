@@ -23,12 +23,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -180,7 +178,7 @@ public class LogFactoryImpl extends LogFactory {
      * @return the context ClassLoader
      * @since 1.1
      */
-    protected static ClassLoader getContextClassLoader() throws LogConfigurationException {
+    protected static ClassLoader getContextClassLoader() {
         return LogFactory.getContextClassLoader();
     }
 
@@ -196,15 +194,14 @@ public class LogFactoryImpl extends LogFactory {
      * @return the context class loader associated with the current thread,
      * or null if security doesn't allow it.
      *
-     * @throws LogConfigurationException if there was some weird error while
+     *
      * attempting to get the context class loader.
      *
      * @throws SecurityException if the current Java security policy doesn't
      * allow this class to access the context class loader.
      */
     private static ClassLoader getContextClassLoaderInternal()
-            throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
+       {   return null;
     }
 
     /**
@@ -218,8 +215,7 @@ public class LogFactoryImpl extends LogFactory {
      * </p>
      */
     private static String getSystemProperty(final String key, final String def)
-            throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
+             {     return null;
     }
 
     /**
@@ -327,11 +323,11 @@ public class LogFactoryImpl extends LogFactory {
      *  be affected by this method call, {@code false} otherwise.
      * @return  an instance of the given class, or null if the logging
      *  library associated with the specified adapter is not available.
-     * @throws LogConfigurationException if there was a serious error with
+     *
      *  configuration and the handleFlawedDiscovery method decided this
      *  problem was fatal.
      */
-    private Log createLogFromClass(final String logAdapterClassName, final String logCategory, final boolean affectState) throws LogConfigurationException {
+    private Log createLogFromClass(final String logAdapterClassName, final String logCategory, final boolean affectState) {
         if (isDiagnosticsEnabled()) {
             logDiagnostic("Attempting to instantiate '" + logAdapterClassName + "'");
         }
@@ -431,10 +427,10 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("The log adapter '" + logAdapterClassName + "' is unable to initialize itself when loaded via class loader " +
                         objectId(currentCL) + ": " + trim(msg));
                 break;
-            } catch (final LogConfigurationException e) {
+            } catch (final Exception e) {
                 // call to handleFlawedHierarchy above must have thrown
                 // a LogConfigurationException, so just throw it on
-                throw e;
+
             } catch (final Throwable t) {
                 handleThrowable(t); // may re-throw t
                 // handleFlawedDiscovery will determine whether this is a fatal
@@ -479,11 +475,11 @@ public class LogFactoryImpl extends LogFactory {
      * Follows the discovery process described in the class Javadoc.
      *
      * @param logCategory the name of the log category
-     * @throws LogConfigurationException if an error in discovery occurs,
+     *
      * or if no adapter at all can be instantiated
      */
     private Log discoverLogImplementation(final String logCategory)
-            throws LogConfigurationException {
+             {
         if (isDiagnosticsEnabled()) {
             logDiagnostic("Discovering a Log implementation...");
         }
@@ -506,7 +502,7 @@ public class LogFactoryImpl extends LogFactory {
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_JDK14_LOGGER);
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_LUMBERJACK_LOGGER);
                 informUponSimilarName(messageBuffer, specifiedLogClassName, LOGGING_IMPL_SIMPLE_LOGGER);
-                throw new LogConfigurationException(messageBuffer.toString());
+
             }
             return result;
         }
@@ -544,7 +540,7 @@ public class LogFactoryImpl extends LogFactory {
             result = createLogFromClass(DISCOVER_CLASSES[i], logCategory, true);
         }
         if (result == null) {
-            throw new LogConfigurationException("No suitable Log implementation");
+
         }
         return result;
     }
@@ -640,7 +636,7 @@ public class LogFactoryImpl extends LogFactory {
      * simply generate a warning rather than fail outright.
      * </p>
      */
-    private ClassLoader getBaseClassLoader() throws LogConfigurationException {
+    private ClassLoader getBaseClassLoader()  {
         final ClassLoader thisClassLoader = getClassLoader(LogFactoryImpl.class);
         if (!useTCCL) {
             return thisClassLoader;
@@ -653,8 +649,7 @@ public class LogFactoryImpl extends LogFactory {
             // UnifiedLoaderRepository) this can still work, so if user hasn't
             // forbidden it, just return the contextClassLoader.
             if (!allowFlawedContext) {
-                throw new LogConfigurationException(
-                        "Bad class loader hierarchy; LogFactoryImpl was loaded via a class loader that is not related to the current context class loader.");
+
             }
             if (isDiagnosticsEnabled()) {
                 logDiagnostic(
@@ -672,8 +667,7 @@ public class LogFactoryImpl extends LogFactory {
             // custom class loaders but fail to set the context class loader so
             // we handle those flawed systems anyway.
             if (!allowFlawedContext) {
-                throw new LogConfigurationException(
-                        "Bad class loader hierarchy; LogFactoryImpl was loaded via a class loader that is not related to the current context class loader.");
+
             }
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Warning: the context class loader is an ancestor of the class loader that loaded LogFactoryImpl; it should be" +
@@ -752,11 +746,11 @@ public class LogFactoryImpl extends LogFactory {
      * call {@code getInstance(String)} with it.
      *
      * @param clazz Class for which a suitable Log name will be derived
-     * @throws LogConfigurationException if a suitable {@code Log}
+     *
      *  instance cannot be returned
      */
     @Override
-    public Log getInstance(final Class<?> clazz) throws LogConfigurationException {
+    public Log getInstance(final Class<?> clazz)  {
         return getInstance(clazz.getName());
     }
 
@@ -774,11 +768,11 @@ public class LogFactoryImpl extends LogFactory {
      *  returned (the meaning of this name is only known to the underlying
      *  logging implementation that is being wrapped)
      *
-     * @throws LogConfigurationException if a suitable {@code Log}
+     *
      *  instance cannot be returned
      */
     @Override
-    public Log getInstance(final String name) throws LogConfigurationException {
+    public Log getInstance(final String name) {
         return instances.computeIfAbsent(name, this::newInstance);
     }
 
@@ -790,9 +784,7 @@ public class LogFactoryImpl extends LogFactory {
      */
     @Deprecated
     protected String getLogClassName() {
-        if (logClassName == null) {
-            discoverLogImplementation(getClass().getName());
-        }
+
         return logClassName;
     }
 
@@ -804,11 +796,11 @@ public class LogFactoryImpl extends LogFactory {
      * </p>
      *
      * @return the {@code Constructor} that can be called to instantiate new {@link org.apache.commons.logging.Log} instances.
-     * @throws LogConfigurationException if a suitable constructor cannot be returned
+     *
      * @deprecated Never invoked by this class; subclasses should not assume it will be.
      */
     @Deprecated
-    protected Constructor<?> getLogConstructor() throws LogConfigurationException {
+    protected Constructor<?> getLogConstructor()  {
         // Return the previously identified Constructor (if any)
         if (logConstructor == null) {
             discoverLogImplementation(getClass().getName());
@@ -867,7 +859,7 @@ public class LogFactoryImpl extends LogFactory {
      */
     private ClassLoader getParentClassLoader(final ClassLoader cl) {
         try {
-            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> cl.getParent());
+            return null;
         } catch (final SecurityException ex) {
             logDiagnostic("[SECURITY] Unable to obtain parent class loader");
             return null;
@@ -882,7 +874,7 @@ public class LogFactoryImpl extends LogFactory {
      * @param logAdapterClassName is the class name of the Log implementation
      * that could not be instantiated. Cannot be {@code null}.
      * @param discoveryFlaw is the Throwable created by the class loader
-     * @throws LogConfigurationException    ALWAYS
+     *
      */
     private void handleFlawedDiscovery(final String logAdapterClassName, final Throwable discoveryFlaw) {
         if (isDiagnosticsEnabled()) {
@@ -909,7 +901,8 @@ public class LogFactoryImpl extends LogFactory {
             }
         }
         if (!allowFlawedDiscovery) {
-            throw new LogConfigurationException(discoveryFlaw);
+
+
         }
     }
 
@@ -938,10 +931,10 @@ public class LogFactoryImpl extends LogFactory {
      * @param badClass is a Class object with the desired name, but which
      * does not implement Log correctly.
      *
-     * @throws LogConfigurationException when the situation
+     *
      * should not be recovered from.
      */
-    private void handleFlawedHierarchy(final ClassLoader badClassLoader, final Class<?> badClass) throws LogConfigurationException {
+    private void handleFlawedHierarchy(final ClassLoader badClassLoader, final Class<?> badClass) {
         boolean implementsLog = false;
         final String logInterfaceName = Log.class.getName();
         final Class<?>[] interfaces = badClass.getInterfaces();
@@ -974,7 +967,7 @@ public class LogFactoryImpl extends LogFactory {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic(msg.toString());
                 }
-                throw new LogConfigurationException(msg.toString());
+
             }
             if (isDiagnosticsEnabled()) {
                 final StringBuilder msg = new StringBuilder();
@@ -995,7 +988,7 @@ public class LogFactoryImpl extends LogFactory {
                 if (isDiagnosticsEnabled()) {
                     logDiagnostic(msg.toString());
                 }
-                throw new LogConfigurationException(msg.toString());
+
             }
             if (isDiagnosticsEnabled()) {
                 final StringBuilder msg = new StringBuilder();
@@ -1136,7 +1129,7 @@ public class LogFactoryImpl extends LogFactory {
                 logDiagnostic("Found '" + name + "'.");
             }
             return true;
-        } catch (final LogConfigurationException e) {
+        } catch (final Exception e) {
             if (isDiagnosticsEnabled()) {
                 logDiagnostic("Logging system '" + name + "' is available but not useable.");
             }
@@ -1162,63 +1155,148 @@ public class LogFactoryImpl extends LogFactory {
      *
      * @param name Name of the new logger
      * @return a new {@link org.apache.commons.logging.Log}
-     * @throws LogConfigurationException if a new instance cannot be created
+     *
      */
-    protected Log newInstance(final String name) throws LogConfigurationException {
+    protected Log newInstance(final String name) {
         Log instance;
         try {
             if (logConstructor == null) {
                 instance = discoverLogImplementation(name);
             } else {
-                final Object[] params = { name };
+                final Object[] params = {name};
                 instance = (Log) logConstructor.newInstance(params);
             }
             if (logMethod != null) {
-                final Object[] params = { this };
+                final Object[] params = {this};
                 logMethod.invoke(instance, params);
             }
             return instance;
-        } catch (final LogConfigurationException lce) {
+        } catch (final Exception lce) {
             // this type of exception means there was a problem in discovery
             // and we've already output diagnostics about the issue, etc.;
             // just pass it on
-            throw lce;
-        } catch (final InvocationTargetException e) {
-            // A problem occurred invoking the Constructor or Method
-            // previously discovered
-            final Throwable c = e.getTargetException();
-            throw new LogConfigurationException(c == null ? e : c);
+
         } catch (final Throwable t) {
             handleThrowable(t); // may re-throw t
             // A problem occurred invoking the Constructor or Method
             // previously discovered
-            throw new LogConfigurationException(t);
+
         }
-    }
 
-    /**
-     * Releases any internal references to previously created
-     * {@link org.apache.commons.logging.Log}
-     * instances returned by this factory.  This is useful in environments
-     * like servlet containers, which implement application reloading by
-     * throwing away a ClassLoader.  Dangling references to objects in that
-     * class loader would prevent garbage collection.
-     */
-    @Override
-    public void release() {
-        logDiagnostic("Releasing all known loggers");
-        instances.clear();
-    }
+    return null; }
+        /**
+         * Releases any internal references to previously created
+         * {@link org.apache.commons.logging.Log}
+         * instances returned by this factory.  This is useful in environments
+         * like servlet containers, which implement application reloading by
+         * throwing away a ClassLoader.  Dangling references to objects in that
+         * class loader would prevent garbage collection.
+         */
+        @Override
+        public void release () {
+            logDiagnostic("Releasing all known loggers");
+            instances.clear();
+        }
 
-    /**
-     * Remove any configuration attribute associated with the specified name.
-     * If there is no such attribute, no action is taken.
-     *
-     * @param name Name of the attribute to remove
-     */
+        /**
+         * Remove any configuration attribute associated with the specified name.
+         * If there is no such attribute, no action is taken.
+         *
+         * @param name Name of the attribute to remove
+         */
+
     @Override
     public void removeAttribute(final String name) {
         attributes.remove(name);
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
+
     }
 
     /**
