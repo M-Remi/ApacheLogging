@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -696,8 +696,8 @@ public abstract class LogFactory {
      * @throws LogConfigurationException if there was some weird error while
      *  attempting to get the context class loader.
      */
-    private static ClassLoader getContextClassLoaderInternal() throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
+    private static ClassLoader getContextClassLoaderInternal()  {
+        return null;
     }
 
     /**
@@ -943,28 +943,7 @@ public abstract class LogFactory {
      * </p>
      */
     private static Properties getProperties(final URL url) {
-        return AccessController.doPrivileged((PrivilegedAction<Properties>) () -> {
-            // We must ensure that useCaches is set to false, as the
-            // default behavior of java is to cache file handles, and
-            // this "locks" files, preventing hot-redeploy on windows.
-            try {
-                final URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                try (InputStream stream = connection.getInputStream()) {
-                    if (stream != null) {
-                        final Properties props = new Properties();
-                        props.load(stream);
-                        return props;
-                    }
-                } catch (final IOException e) {
-                    logDiagnostic(() -> "Unable to close stream for URL " + url);
-                }
-            } catch (final IOException e) {
-                logDiagnostic(() -> "Unable to read URL " + url);
-            }
-
-            return null;
-        });
+        return null;
     }
 
     /**
@@ -983,22 +962,7 @@ public abstract class LogFactory {
      * </p>
      */
     private static Enumeration<URL> getResources(final ClassLoader loader, final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<Enumeration<URL>>) () -> {
-            try {
-                if (loader != null) {
-                    return loader.getResources(name);
-                }
-                return ClassLoader.getSystemResources(name);
-            } catch (final IOException e) {
-                logDiagnostic(() -> "Exception while trying to find configuration file " + name + ":" + e.getMessage());
-                return null;
-            } catch (final NoSuchMethodError e) {
-                // we must be running on a 1.1 JVM which doesn't support
-                // ClassLoader.getSystemResources; just return null in
-                // this case.
-                return null;
-            }
-        });
+        return null;
     }
 
     /**
@@ -1012,8 +976,8 @@ public abstract class LogFactory {
      * </p>
      */
     private static String getSystemProperty(final String key, final String def)
-            throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
+             {
+        return null;
     }
 
     /**
@@ -1029,12 +993,7 @@ public abstract class LogFactory {
      * @param t the Throwable to check
      */
     protected static void handleThrowable(final Throwable t) {
-        if (t instanceof ThreadDeath) {
-            throw (ThreadDeath) t;
-        }
-        if (t instanceof VirtualMachineError) {
-            throw (VirtualMachineError) t;
-        }
+
         // All other instances of Throwable will be silently ignored
     }
 
@@ -1389,18 +1348,8 @@ public abstract class LogFactory {
     protected static LogFactory newFactory(final String factoryClass,
                                            final ClassLoader classLoader,
                                            final ClassLoader contextClassLoader)
-            throws LogConfigurationException {
-        // Note that any unchecked exceptions thrown by the createFactory
-        // method will propagate out of this method; in particular a
-        // ClassCastException can be thrown.
-        final Object result = AccessController.doPrivileged((PrivilegedAction<?>) () -> createFactory(factoryClass, classLoader));
-        if (result instanceof LogConfigurationException) {
-            final LogConfigurationException ex = (LogConfigurationException) result;
-            logDiagnostic(() -> "An error occurred while loading the factory class:" + ex.getMessage());
-            throw ex;
-        }
-        logDiagnostic(() -> "Created object " + objectId(result) + " to manage class loader " + objectId(contextClassLoader));
-        return (LogFactory) result;
+            {
+        return null;
     }
 
     /**
@@ -1422,18 +1371,8 @@ public abstract class LogFactory {
                         "[LOOKUP] Log4j API to SLF4J redirection detected. Loading the SLF4J LogFactory implementation '" + FACTORY_SLF4J + "'.");
             }
         }
-        try {
-            return (LogFactory) Class.forName(FACTORY_LOG4J_API, true, classLoader).getConstructor().newInstance();
-        } catch (final LinkageError | ReflectiveOperationException ignored) {
-        } finally {
-            logDiagnostic(() -> "[LOOKUP] Loading the Log4j API LogFactory implementation '" + FACTORY_LOG4J_API + "'.");
-        }
-        try {
-            return (LogFactory) Class.forName(FACTORY_SLF4J, true, classLoader).getConstructor().newInstance();
-        } catch (final LinkageError | ReflectiveOperationException ignored) {
-        } finally {
-            logDiagnostic(() -> "[LOOKUP] Loading the SLF4J LogFactory implementation '" + FACTORY_SLF4J + "'.");
-        }
+
+
         try {
             return (LogFactory) Class.forName(FACTORY_DEFAULT, true, classLoader).getConstructor().newInstance();
         } catch (final LinkageError | ReflectiveOperationException ignored) {
