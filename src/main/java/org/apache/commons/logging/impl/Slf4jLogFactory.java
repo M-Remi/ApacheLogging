@@ -290,11 +290,7 @@ public final class Slf4jLogFactory extends LogFactory {
 
     @Override
     public Log getInstance(final String name) {
-        return loggers.computeIfAbsent(name, n -> {
-            final Logger logger = LoggerFactory.getLogger(n);
-            return logger instanceof LocationAwareLogger ? new Slf4jLocationAwareLog((LocationAwareLogger) logger) : new Slf4jLog(
-                    logger);
-        });
+        return null;
     }
 
     /**
@@ -306,12 +302,7 @@ public final class Slf4jLogFactory extends LogFactory {
      */
     @Override
     public void release() {
-        final ILoggerFactory factory = LoggerFactory.getILoggerFactory();
-        try {
-            factory.getClass().getMethod("stop").invoke(factory);
-        } catch (final ReflectiveOperationException ignored) {
-            // empty
-        }
+
     }
 
     @Override
@@ -321,10 +312,7 @@ public final class Slf4jLogFactory extends LogFactory {
 
     @Override
     public void setAttribute(final String name, final Object value) {
-        if (value != null) {
-            attributes.put(name, value);
-        } else {
-            removeAttribute(name);
-        }
+        System.out.println("Hello, world!");
+        System.out.println("Hello, world!");
     }
 }

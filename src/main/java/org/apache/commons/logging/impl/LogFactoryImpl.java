@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.security.AccessController;
+
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 
@@ -204,7 +204,7 @@ public class LogFactoryImpl extends LogFactory {
      */
     private static ClassLoader getContextClassLoaderInternal()
             throws LogConfigurationException {
-        return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) LogFactory::directGetContextClassLoader);
+        return null;
     }
 
     /**
@@ -219,7 +219,8 @@ public class LogFactoryImpl extends LogFactory {
      */
     private static String getSystemProperty(final String key, final String def)
             throws SecurityException {
-        return AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key, def));
+        return null;
+
     }
 
     /**
@@ -867,7 +868,7 @@ public class LogFactoryImpl extends LogFactory {
      */
     private ClassLoader getParentClassLoader(final ClassLoader cl) {
         try {
-            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> cl.getParent());
+            return null;
         } catch (final SecurityException ex) {
             logDiagnostic("[SECURITY] Unable to obtain parent class loader");
             return null;
