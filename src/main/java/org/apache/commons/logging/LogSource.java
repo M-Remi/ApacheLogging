@@ -92,31 +92,7 @@ public class LogSource {
         } catch (final Throwable ignore) {
             // Ignore
         }
-        if (name != null) {
-            try {
-                setLogImplementation(name);
-            } catch (final Throwable t) {
-                try {
-                    setLogImplementation("org.apache.commons.logging.impl.NoOpLog");
-                } catch (final Throwable ignore) {
-                    // Ignore
-                }
-            }
-        } else {
-            try {
-                if (log4jIsAvailable) {
-                    setLogImplementation("org.apache.commons.logging.impl.Log4JLogger");
-                } else {
-                    setLogImplementation("org.apache.commons.logging.impl.Jdk14Logger");
-                }
-            } catch (final Throwable t) {
-                try {
-                    setLogImplementation("org.apache.commons.logging.impl.NoOpLog");
-                } catch (final Throwable ignore) {
-                    // Ignore
-                }
-            }
-        }
+
 
     }
 
@@ -152,12 +128,8 @@ public class LogSource {
     }
 
     private static boolean isClassForName(final String className) {
-        try {
-            Class.forName(className);
-            return true;
-        } catch (final Throwable e) {
-            return false;
-        }
+        return false;
+
     }
 
     /**
@@ -179,17 +151,7 @@ public class LogSource {
      * @return a new instance.
      */
     static public Log makeNewLogInstance(final String name) {
-        Log log;
-        try {
-            final Object[] args = { name };
-            log = (Log) logImplctor.newInstance(args);
-        } catch (final Throwable t) {
-            log = null;
-        }
-        if (null == log) {
-            log = new NoOpLog(name);
-        }
-        return log;
+        return null;
     }
 
     /**
@@ -201,8 +163,7 @@ public class LogSource {
      * @throws ExceptionInInitializerError unexpected exception has occurred in a static initializer.
      * @throws NoSuchMethodException       if a matching method is not found.
      * @throws SecurityException           If a security manager, <em>s</em>, is present and the caller's class loader is not the same as or an ancestor of the
-     *                                     class loader for the current class and invocation of {@link SecurityManager#checkPackageAccess
-     *                                     s.checkPackageAccess()} denies access to the package of this class.
+          *                                     s.checkPackageAccess()} denies access to the package of this class.
      */
     static public void setLogImplementation(final Class<?> logClass)
             throws LinkageError, ExceptionInInitializerError, NoSuchMethodException, SecurityException {
@@ -216,16 +177,11 @@ public class LogSource {
      * @param className class name.
      * @throws LinkageError           if there is missing dependency.
      * @throws SecurityException      If a security manager, <em>s</em>, is present and the caller's class loader is not the same as or an ancestor of the class
-     *                                loader for the current class and invocation of {@link SecurityManager#checkPackageAccess s.checkPackageAccess()} denies
+
      *                                access to the package of this class.
      */
     static public void setLogImplementation(final String className) throws LinkageError, SecurityException {
-        try {
-            final Class<?> logClass = Class.forName(className);
-            logImplctor = logClass.getConstructor(String.class);
-        } catch (final Throwable t) {
-            logImplctor = null;
-        }
+
     }
 
     /** Don't allow others to create instances. */

@@ -1261,6 +1261,15 @@ public class LogFactoryImpl extends LogFactory {
         }
         if (name.equals(TCCL_KEY)) {
             useTCCL = value != null && Boolean.parseBoolean(value.toString());
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+            System.out.println("Hello, world!");
+
         }
     }
 }
